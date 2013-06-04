@@ -13,6 +13,8 @@ class Ability
     # No one can destroy themselves.
     cannot :destroy, User, id: user.id
 
+    can :manage, Stop, user_id: user.id
+    can :manage, Booking,
 
     # Define abilities for the passed in user here. For example:
     #

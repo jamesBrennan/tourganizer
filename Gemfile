@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Heroku uses the ruby version to configure your application's runtime.
-ruby '2.0.0'
+# ruby 'ruby-2.0.0'
 
 gem 'unicorn'
 gem 'rails', '~> 3.2.13'

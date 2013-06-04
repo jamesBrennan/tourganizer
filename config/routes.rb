@@ -18,4 +18,8 @@ Tourganizer::Application.routes.draw do
 
   resources :users
 
+  resources :stops do
+    resources :bookings
+  end
+
 end

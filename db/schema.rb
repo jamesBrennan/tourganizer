@@ -11,12 +11,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121128215337) do
+ActiveRecord::Schema.define(:version => 20130604044841) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id",    :null => false
     t.string   "provider",   :null => false
     t.string   "uid",        :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+# Could not dump table "bookings" because of following StandardError
+#   Unknown type 'json' for column 'venue'
+
+  create_table "stops", :force => true do |t|
+    t.date     "date"
+    t.string   "city"
+    t.string   "state"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
