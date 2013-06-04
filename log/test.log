@@ -1,0 +1,10 @@
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Started GET "/jasmine" for 127.0.0.1 at 2013-06-03 21:43:12 -0700
+Processing by Jasminerice::SpecController#index as */*
+  Rendered /Users/jamesbrennan/.rvm/gems/ruby-2.0.0-p0/gems/jasminerice-0.0.10/app/views/jasminerice/spec/index.html.haml (3.5ms)
+Completed 200 OK in 13ms (Views: 13.1ms | ActiveRecord: 0.0ms)
+Started GET "/jasmine" for 127.0.0.1 at 2013-06-03 21:43:13 -0700
+Processing by Jasminerice::SpecController#index as HTML
+  Rendered /Users/jamesbrennan/.rvm/gems/ruby-2.0.0-p0/gems/jasminerice-0.0.10/app/views/jasminerice/spec/index.html.haml (4.0ms)
+Completed 200 OK in 6ms (Views: 5.3ms | ActiveRecord: 0.0ms)
