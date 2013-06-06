@@ -8,6 +8,7 @@ gem 'pg'
 gem 'sass-rails', '~> 4.0.0.rc1'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
+#gem 'silm-rails'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
@@ -22,6 +23,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.0'
+  gem 'fabricator'
 end
 
 # Use ActiveModel has_secure_password
