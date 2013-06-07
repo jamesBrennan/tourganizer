@@ -6,8 +6,7 @@ class StopsController < ApplicationController
   end
 
   def create
-    date_from_string = Date.strptime(params[:stop][:date], '%m/%d/%Y')
-    @stop = Stop.create(stop_params.merge({date: date_from_string}))
+    @stop = Stop.create(stop_params)
     if @stop.id
       render :show
     else

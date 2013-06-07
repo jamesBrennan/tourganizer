@@ -14,14 +14,14 @@ describe StopsController do
   describe 'POST create' do
     it 'creates a new stop' do
       expect {
-        post :create, stop: { date: '02/13/2014', location: 'Arcata, CA' }
+        post :create, stop: { date: '2013-09-09', location: 'Arcata, CA' }
       }.to change(Stop, :count).from(0).to(1)
     end
 
     it 'accepts json for venues' do
       expect {
         post :create, stop: {
-          date: '05/16/2014',
+          date: '2013-09-09',
           location: 'Arcata, CA',
           venues: {
             'Flop House'=> { owner: 'Jason' },
@@ -46,7 +46,7 @@ describe StopsController do
     render_views
 
     before do
-      @stop = Stop.create date: Date.strptime('06/10/2013', '%m/%d/%Y'), location: 'Jackson, MI'
+      @stop = Stop.create date: Date.parse('2013-06-10'), location: 'Jackson, MI'
     end
 
     it 'returns the resource' do
