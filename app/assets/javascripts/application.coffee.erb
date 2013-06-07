@@ -18,6 +18,9 @@ application.config ["$httpProvider", "$routeProvider", ($httpProvider, $routePro
     "index": '<%= asset_path("stops/views/index.html") %>'
   }
 
+  $routeProvider.when '/',
+    redirectTo: '/stops'
+
   $routeProvider.when '/stops',
     controller: 'StopIndexController'
     templateUrl: templates.index

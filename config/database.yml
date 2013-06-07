@@ -9,3 +9,6 @@ test:
   <<: *default
   database: tourganizer_test
   min_messages: warning
+
+production:
+  <<: *default
