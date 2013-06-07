@@ -1,1 +1,19 @@
-h1 Edit Stop
+div
+  ul
+    li.date
+      input[ng-model='stop.date' placeholder='Date' ui-date-format="mm/dd/yy" ui-date]
+    li.location
+      input ng-model='stop.location' placeholder='location'
+    li.venues
+      button ng-click='addVenue(stop)' + Venue
+      ul
+        li ng-repeat='name in venueNames()'
+          span.venue-name ng-bind="name"
+          button ng-click='addProperty(name)' +
+          ul.venue-properties
+            li ng-repeat='property in venueProperties(name)'
+              input ng-model='property.key'
+              input ng-model='property.value'
+
+
+  button ng-click='save()' Save

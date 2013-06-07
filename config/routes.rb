@@ -47,7 +47,11 @@ Tourganizer::Application.routes.draw do
   #     resources :products
   #   end
 
-  resources :stops
+  resources :stops do
+    collection do
+      get 'schema'
+    end
+  end
 
   root 'home#index'
 end

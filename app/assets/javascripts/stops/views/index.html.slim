@@ -1,1 +1,4 @@
-h1 List Stops
+ul
+  li ng-repeat="stop in stops"
+    strong.date ng-bind="stop.date"
+    span.location ng-bind='stop.location'

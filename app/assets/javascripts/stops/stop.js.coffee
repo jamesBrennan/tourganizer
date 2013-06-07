@@ -1,7 +1,5 @@
 Tourganizer.Stops.Stop = ['$resource', ($resource) ->
-  stop = $resource('stops/:id')
-  query: -> stop.query(arguments)
-  get: -> stop.get(arguments)
+  $resource 'stops/:id', {id:'@id'}
 ]
 
-angular.module('stops').service 'Stop', Tourganizer.Stops.Stop
+angular.module('stops').factory 'Stop', Tourganizer.Stops.Stop
