@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130606043018) do
+ActiveRecord::Schema.define(version: 20130607170511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "json_schemas", force: true do |t|
+    t.string "name"
+    t.string "version"
+    t.json   "schema"
+  end
+
+  add_index "json_schemas", ["name", "version"], name: "index_json_schemas_on_name_and_version", unique: true, using: :btree
 
   create_table "stops", force: true do |t|
     t.date     "date"

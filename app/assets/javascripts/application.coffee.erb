@@ -1,0 +1,28 @@
+#= require vendor
+#= require_self
+#= require stops/module
+
+window.Tourganizer =
+  Stops: {}
+  Config: {}
+
+application = angular.module('tourganizer', ['ngResource', 'stops'])
+
+application.value 'views', {}
+
+application.config ["$httpProvider", "$routeProvider", ($httpProvider, $routeProvider) ->
+  $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content')
+
+  templates = {
+    "edit": '<%= asset_path("stops/views/edit.html") %>'
+    "index": '<%= asset_path("stops/views/index.html") %>'
+  }
+
+  $routeProvider.when '/stops',
+    controller: 'StopIndexController'
+    templateUrl: templates.index
+
+  $routeProvider.when '/stops/:id',
+    controller: 'StopEditController'
+    templateUrl: templates.edit
+]

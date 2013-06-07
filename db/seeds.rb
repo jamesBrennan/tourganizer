@@ -5,3 +5,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+stop_schema = File.read("#{Rails.root}/db/json_schemas/stop.json")
+JsonSchema.create name: 'stop', version: '0.1.0', schema: stop_schema

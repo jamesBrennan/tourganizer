@@ -1,0 +1,27 @@
+{
+  "title": "Stop Schema",
+  "type": "object",
+  "properties": {
+    "date": {
+      "description": "Date that tour will be at this stop",
+      "type": "object"
+    },
+    "location": {
+      "description": "Location of tour stop, ex: (Dallas, TX)",
+      "type": "string"
+    },
+    "venues": {
+      "description": "Performance venues at this stop",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/venue"
+      }
+    }
+  },
+
+  "definitions": {
+    "venue": {
+      "type": "object"
+    }
+  }
+}

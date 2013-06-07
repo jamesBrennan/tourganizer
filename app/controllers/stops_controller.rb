@@ -6,6 +6,30 @@ class StopsController < ApplicationController
   end
 
   def create
-
+    @stop = Stop.create(stop_params)
+    if @stop.id
+      render :show
+    else
+      render :edit
+    end
   end
+
+  def show
+    @stop = Stop.find(params[:id])
+  end
+
+  def edit
+    @stop = Stop.find(params[:id])
+  end
+
+  def new
+    render json: JsonSchema.find_by_name_and_version('stop', '0.1.0').schema, layout: false
+  end
+
+  private
+
+  def stop_params
+    params.require(:stop).permit(:date, :location, :venues)
+  end
+
 end
