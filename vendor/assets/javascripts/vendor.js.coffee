@@ -1,3 +1,3 @@
-#= require jquery-1.7.2
+#= require jquery-2.0.2
 #= require angular.min
 #= require resource

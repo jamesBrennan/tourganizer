@@ -8,7 +8,7 @@ gem 'pg'
 gem 'sass-rails', '~> 4.0.0.rc1'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
-#gem 'silm-rails'
+gem 'slim', '~> 2.0.0.pre.8'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
@@ -23,7 +23,22 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.0'
-  gem 'fabricator'
+  gem 'fabrication'
+  gem 'jasminerice', github: 'bradphelan/jasminerice'
+end
+
+group :development do
+  gem 'foreman'
+  gem 'launchy'
+  gem 'mailcatcher'
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'guard-jasmine'
+  gem 'guard-livereload'
+  gem 'guard-rake'
+  gem 'rb-fsevent'
+  gem 'growl'
+  # gem 'terminal-notifier-guard'
 end
 
 # Use ActiveModel has_secure_password
