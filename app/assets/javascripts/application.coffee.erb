@@ -16,28 +16,4 @@ application.controller 'appController', ['$scope', '$window', ($scope, $window) 
 
 application.config ["$httpProvider", "$routeProvider", ($httpProvider, $routeProvider) ->
   $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content')
-
-  templates = {
-    "edit": '<%= asset_path("stops/views/edit.html") %>'
-    "index": '<%= asset_path("stops/views/index.html") %>'
-  }
-
-  $routeProvider.when '/',
-    redirectTo: '/stops'
-
-  $routeProvider.when '/stops',
-    controller: 'StopIndexController'
-    templateUrl: templates.index
-
-  $routeProvider.when '/stops/edit/:id',
-    controller: 'StopEditController'
-    templateUrl: templates.edit
-
-  $routeProvider.when '/stops/show/:id',
-    controller: 'StopEditController'
-    templateUrl: templates.edit
-
-  $routeProvider.when '/stops/new',
-    controller: 'StopNewController'
-    templateUrl: templates.edit
 ]

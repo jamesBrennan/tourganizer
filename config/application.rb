@@ -26,5 +26,9 @@ module Tourganizer
     # config.i18n.default_locale = :de
 
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+
+    config.middleware.insert_after(::Rack::Lock, "::Rack::Auth::Basic", "My App") do |u, p|
+      [u, p] == [ENV['HTTP_USER'], ENV['HTTP_PASSWORD']]
+    end
   end
 end
