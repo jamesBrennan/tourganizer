@@ -10,6 +10,13 @@
  *
  *= require_self
  *= require vendor
-
  *= require_tree .
  */
+
+
+.container .main-content [class^="icon-"], [class*=" icon-"] {
+  background-image: url(<%= image_path('glyphicons-halflings.png') %>);
+}
+.container .main-content [class^="icon-white"], [class*=" icon-white"] {
+  background-image: url(<%= image_path('glyphicons-halflings-white.png') %>);
+}

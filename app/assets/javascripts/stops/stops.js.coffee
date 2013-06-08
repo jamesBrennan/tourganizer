@@ -2,14 +2,19 @@ Tourganizer.Stops.EditController = ['$scope', 'Stop', '$routeParams', ($scope, S
   $scope.stop = Stop.get($routeParams.id)
 ]
 
-Tourganizer.Stops.IndexController = ['Stop', '$scope', (Stop, $scope) ->
+Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', (Stop, $scope, $window) ->
   $scope.stops = Stop.query()
+  $scope.destroy = (stop) ->
+    if $window.confirm("Are you sure?")
+      stop.$delete ->
+        $scope.$emit 'notify', type: 'info', message: 'deleted'
 ]
 
 Tourganizer.Stops.NewController = ['Stop', '$scope', '$window', (Stop, $scope, $window) ->
   $scope.addVenue = () ->
     name = $window.prompt("Venue name")
-    $scope.stop.venues[name] = []
+    if name
+      $scope.stop.venues[name] = []
 
   $scope.venueNames = ->
     _.keys($scope.stop.venues)
@@ -21,7 +26,16 @@ Tourganizer.Stops.NewController = ['Stop', '$scope', '$window', (Stop, $scope, $
     $scope.venueProperties(name).push( key: "", value: "" )
 
   $scope.save = ->
-    $scope.stop.$save()
+    $scope.stop.$save (stop) ->
+      console.log 'success', arguments, $scope
+      $scope.$emit 'notify',
+        type: 'info'
+        message: 'Stop saved'
+    , (error) ->
+      console.log 'error', arguments
+      $scope.$emit 'notify',
+          type: 'error'
+          message: 'error saving'
 
   $scope.stop = new Stop(venues: {})
 

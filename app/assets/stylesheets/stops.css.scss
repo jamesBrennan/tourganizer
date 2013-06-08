@@ -1,3 +1,73 @@
-// Place all the styles related to the stops controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.stops {
+
+}
+
+.stop-date {
+  margin-right: 8px;
+}
+
+.stop-location {
+
+}
+
+.stop-date,
+.stop-location {
+  display: inline-block;
+}
+
+.container {
+  position: relative;
+}
+
+.alert {
+  position: absolute;
+  top: 20px;
+  left: 180px;
+}
+
+ul {
+  margin-left: 10px;
+  list-style: none;
+  li {
+    .icon-trash {
+      visibility: hidden;
+    }
+    &:hover {
+      .icon-trash {
+        visibility: visible;
+      }
+    }
+    input {
+      width: 170px;
+      &:first-child {
+        margin-right: 10px;
+      }
+    }
+    button {
+      margin-left: 10px;
+    }
+  }
+}
+
+.venues {
+ .venue-properties {
+   margin-left: 10px;
+ }
+ .properties {
+    input {
+      display: inline-block;
+    }
+  }
+}
+
+section footer {
+  position: relative;
+  width: 100%;
+  min-height: 60px;
+
+  button {
+    position: absolute;
+    bottom: 20px;
+    right: 4px;
+  }
+}

@@ -1,4 +1,12 @@
-ul
-  li ng-repeat="stop in stops"
-    strong.date ng-bind="stop.date"
-    span.location ng-bind='stop.location'
+div
+  .page-header
+    h1 Stops
+
+  ul.stops
+    li ng-repeat="stop in stops"
+      i.icon-trash ng-click='destroy(stop)'
+      | &nbsp;
+      strong.stop-date ng-bind="stop.date"
+      span.stop-location ng-bind='stop.location'
+
+

@@ -1,12 +1,20 @@
 doctype 5
-html ng-app='tourganizer'
+html ng-app='tourganizer' ng-controller='appController'
   head
     title Tourganizer
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tag
 
-  body id=(controller.controller_name) class=(controller.action_name)
+  body
+    #wrap
+      .container
+        div[t-notification]
+        div.sidebar
+        div.main-content
+          = yield
+        #push
 
-    = yield
-
+    #footer
+      .container
+        button.btn.btn-primary ng-click='newStop()' New Stop

@@ -58,7 +58,7 @@ Tourganizer::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets.
-  # application.coffee, application.css, and all non-JS/CSS in app/assets folder are already added.
+  # application.coffee, application.css.erb, and all non-JS/CSS in app/assets folder are already added.
   # config.assets.precompile += %w( *.js *.css *.coffee )
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -77,4 +77,8 @@ Tourganizer::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  config.middleware.insert_after(::Rack::Lock, "::Rack::Auth::Basic", "Production") do |u, p|
+    [u, p] == ['james', 'ohboyanapp']
+  end
 end

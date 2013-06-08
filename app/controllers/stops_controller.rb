@@ -32,6 +32,11 @@ class StopsController < ApplicationController
     render json: JsonSchema.find_by_name_and_version('stop', '0.1.0').schema, layout: false
   end
 
+  def destroy
+    Stop.find(params[:id]).destroy
+    head :ok
+  end
+
   private
 
   def stop_params

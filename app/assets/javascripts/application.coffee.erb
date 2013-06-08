@@ -1,5 +1,6 @@
 #= require vendor
 #= require_self
+#= require notification_directive
 #= require stops/module
 
 window.Tourganizer =
@@ -9,6 +10,11 @@ window.Tourganizer =
 application = angular.module('tourganizer', ['ngResource', 'ui.date', 'stops'])
 
 application.value 'views', {}
+
+application.controller 'appController', ['$scope', '$window', ($scope, $window) ->
+  $scope.newStop = ->
+    $window.location = "#/stops/new"
+]
 
 application.config ["$httpProvider", "$routeProvider", ($httpProvider, $routeProvider) ->
   $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content')

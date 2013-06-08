@@ -1,1 +1,1 @@
-json.(stop, :date, :location, :venues)
+json.(stop, :id, :date, :location, :venues)

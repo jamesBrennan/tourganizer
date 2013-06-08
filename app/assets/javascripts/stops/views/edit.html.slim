@@ -1,19 +1,21 @@
 div
-  ul
-    li.date
-      input[ng-model='stop.date' placeholder='Date' ui-date-format="mm/dd/yy" ui-date]
-    li.location
-      input ng-model='stop.location' placeholder='location'
-    li.venues
-      button ng-click='addVenue(stop)' + Venue
-      ul
-        li ng-repeat='name in venueNames()'
-          span.venue-name ng-bind="name"
-          button ng-click='addProperty(name)' +
-          ul.venue-properties
-            li ng-repeat='property in venueProperties(name)'
-              input ng-model='property.key'
-              input ng-model='property.value'
+  .page-header
+    h1 New
 
-
-  button ng-click='save()' Save
+  section
+    ul
+      li.date.clearfix
+        input[ng-model='stop.date' placeholder='Date' ui-date-format="dd-mm-yy" ui-date]
+        input ng-model='stop.location' placeholder='location'
+        button.btn.btn-small ng-click='addVenue(stop)' + Venue
+      li.venues.clearfix
+        ul
+          li ng-repeat='name in venueNames()'
+            span.venue-name ng-bind="name"
+            button.btn.btn-small ng-click='addProperty(name)' +
+            ul.venue-properties
+              li.properties ng-repeat='property in venueProperties(name)'
+                input ng-model='property.key' placeholder='Info Type'
+                input ng-model='property.value' placeholder='Info'
+    footer.clearfix
+      button.btn.btn-save ng-click='save()' Save

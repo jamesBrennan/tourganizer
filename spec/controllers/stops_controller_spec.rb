@@ -52,10 +52,23 @@ describe StopsController do
     it 'returns the resource' do
       get :show, id: @stop.id
       JSON.parse(response.body).should == {
+        "id"=>@stop.id,
         "date"=>"2013-06-10",
         "location"=>"Jackson, MI",
         "venues"=>nil
       }
+    end
+  end
+
+  describe 'DELETE' do
+    before do
+      @stop = Stop.create date: Date.parse('2013-06-10'), location: 'Jackson, MI'
+    end
+
+    it 'accepts an id' do
+      expect {
+        delete :destroy, id: @stop.id
+      }.to change(Stop, :count).from(1).to(0)
     end
   end
 

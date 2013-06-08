@@ -48,6 +48,9 @@ Tourganizer::Application.routes.draw do
   #   end
 
   resources :stops do
+    member do
+      delete 'destroy'
+    end
     collection do
       get 'schema'
     end
