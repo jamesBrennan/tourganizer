@@ -14,14 +14,14 @@ describe StopsController do
   describe 'POST create' do
     it 'creates a new stop' do
       expect {
-        post :create, stop: { date: '2013-09-09', location: 'Arcata, CA' }
+        post :create, stop: { date: '2013-06-20T07:00:00.000Z', location: 'Arcata, CA' }
       }.to change(Stop, :count).from(0).to(1)
     end
 
     it 'accepts json for venues' do
       expect {
         post :create, stop: {
-          date: '2013-09-09',
+          date: '2013-06-20',
           location: 'Arcata, CA',
           venues: {
             'Flop House'=> { owner: 'Jason' },
@@ -46,14 +46,14 @@ describe StopsController do
     render_views
 
     before do
-      @stop = Stop.create date: Date.parse('2013-06-10'), location: 'Jackson, MI'
+      @stop = Stop.create date: Date.parse('2013-06-20T07:00:00.000Z'), location: 'Jackson, MI'
     end
 
     it 'returns the resource' do
       get :show, id: @stop.id
       JSON.parse(response.body).should == {
         "id"=>@stop.id,
-        "date"=>"2013-06-10",
+        "date"=>"2013-06-20",
         "location"=>"Jackson, MI",
         "venues"=>nil
       }
@@ -62,7 +62,7 @@ describe StopsController do
 
   describe 'DELETE' do
     before do
-      @stop = Stop.create date: Date.parse('2013-06-10'), location: 'Jackson, MI'
+      @stop = Stop.create date: Date.parse('2013-06-20T07:00:00.000Z'), location: 'Jackson, MI'
     end
 
     it 'accepts an id' do

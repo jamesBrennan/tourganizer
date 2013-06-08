@@ -20,9 +20,10 @@
 }
 
 .alert {
-  position: absolute;
-  top: 20px;
-  left: 180px;
+  margin-bottom: 0;
+  margin-left: 100px;
+  margin-top: 6px;
+  padding: 4px 10px;
 }
 
 ul {
@@ -49,13 +50,33 @@ ul {
   }
 }
 
-.venues {
- .venue-properties {
-   margin-left: 10px;
- }
- .properties {
-    input {
+.venue-properties {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.properties {
+  input {
+    display: inline-block;
+  }
+}
+
+.stop-date {
+  width: 80px;
+  margin-right: 20px;
+}
+
+.stop-location {
+  width: 300px;
+}
+
+section.venues {
+  .page-header {
+    span{
       display: inline-block;
+    }
+    button {
+      display: inline-block;
+      margin-left: 20px;
     }
   }
 }

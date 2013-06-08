@@ -14,6 +14,12 @@ class StopsController < ApplicationController
     end
   end
 
+  def update
+    @stop = Stop.find(params[:id])
+    @stop.update_attributes(stop_params)
+    render :edit
+  end
+
   def show
     @stop = Stop.find(params[:id])
   end

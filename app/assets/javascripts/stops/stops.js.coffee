@@ -1,18 +1,22 @@
-Tourganizer.Stops.EditController = ['$scope', 'Stop', '$routeParams', ($scope, Stop, $routeParams) ->
-  $scope.stop = Stop.get($routeParams.id)
-]
+EditMixin = ['$scope','save_method','$window', ($scope, save_method, $window) ->
+  $scope.parseDate = (stop) ->
+    parts = stop.date.split("-")
+    stop.date = new Date(parts[0], parts[1] - 1, parts[2])
+    stop
 
-Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', (Stop, $scope, $window) ->
-  $scope.stops = Stop.query()
-  $scope.destroy = (stop) ->
-    if $window.confirm("Are you sure?")
-      stop.$delete ->
-        $scope.$emit 'notify', type: 'info', message: 'deleted'
-]
+  $scope.save = ->
+    $scope.stop[save_method] (stop) ->
+      $scope.parseDate(stop)
+      $scope.$emit 'notify',
+        type: 'info'
+        message: 'Stop saved'
+    , (error) ->
+      $scope.$emit 'notify',
+        type: 'error'
+        message: 'error saving'
 
-Tourganizer.Stops.NewController = ['Stop', '$scope', '$window', (Stop, $scope, $window) ->
   $scope.addVenue = () ->
-    name = $window.prompt("Venue name")
+    name = $window.prompt("Venue or Contact name")
     if name
       $scope.stop.venues[name] = []
 
@@ -24,27 +28,30 @@ Tourganizer.Stops.NewController = ['Stop', '$scope', '$window', (Stop, $scope, $
 
   $scope.addProperty = (name) ->
     $scope.venueProperties(name).push( key: "", value: "" )
+]
 
-  $scope.save = ->
-    $scope.stop.$save (stop) ->
-      console.log 'success', arguments, $scope
-      $scope.$emit 'notify',
-        type: 'info'
-        message: 'Stop saved'
-    , (error) ->
-      console.log 'error', arguments
-      $scope.$emit 'notify',
-          type: 'error'
-          message: 'error saving'
+angular.module('stops').value 'EditMixin', EditMixin
 
+Tourganizer.Stops.EditController = ['$scope', 'Stop', '$routeParams', '$injector', ($scope, Stop, $routeParams, $injector) ->
+  Stop.get(id: $routeParams.id, (stop) ->
+    $injector.invoke(EditMixin, @, $scope: $scope, save_method: '$update')
+    $scope.stop = $scope.parseDate(stop)
+    $scope.pageTitle = "#{$scope.stop.location}"
+  )
+]
+
+Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', (Stop, $scope, $window) ->
+  $scope.stops = Stop.query()
+  $scope.destroy = (stop) ->
+    if $window.confirm("Are you sure?")
+      stop.$delete ->
+        $scope.$emit 'notify', type: 'info', message: 'deleted'
+]
+
+Tourganizer.Stops.NewController = ['Stop', '$scope', '$window', '$injector', (Stop, $scope, $window, $injector) ->
+  $scope.pageTitle = 'New Stop'
+  $injector.invoke(EditMixin, @, $scope: $scope, save_method: '$save')
   $scope.stop = new Stop(venues: {})
-
-  $scope.dateOptions = {
-    changeYear: true,
-    changeMonth: true,
-    yearRange: '2013:-0'
-  };
-
 ]
 
 angular.module('stops').controller 'StopIndexController', Tourganizer.Stops.IndexController

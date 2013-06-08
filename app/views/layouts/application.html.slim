@@ -8,8 +8,21 @@ html ng-app='tourganizer' ng-controller='appController'
 
   body
     #wrap
+      .navbar.navbar-fixed-top
+        .navbar-inner
+          .container
+            button.btn.btn-navbar data-toggle="collapse" data-target=".nav-collapse"
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            a.brand href="#" Tourganizer
+            div.nav-collapse.collapse
+              ul.nav
+                li ng-class='current-tab'
+                  a href="#/stops" Stops
+                li
+                  div[t-notification]
       .container
-        div[t-notification]
         div.sidebar
         div.main-content
           = yield

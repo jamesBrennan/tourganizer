@@ -6,7 +6,8 @@ div
     li ng-repeat="stop in stops"
       i.icon-trash ng-click='destroy(stop)'
       | &nbsp;
-      strong.stop-date ng-bind="stop.date"
-      span.stop-location ng-bind='stop.location'
+      a href="/#/stops/edit/{{stop.id}}"
+        strong.stop-date ng-bind="stop.date"
+        span.stop-location ng-bind='stop.location'
 
 
