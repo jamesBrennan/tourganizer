@@ -1,13 +1,22 @@
 div
   .page-header
-    h1 Stops
+    h1
+      | Stops
+      button.btn ng-click='addStop()' +
 
   ul.stops
     li ng-repeat="stop in stops"
-      i.icon-trash ng-click='destroy(stop)'
-      | &nbsp;
-      a href="/#/stops/edit/{{stop.id}}"
-        strong.stop-date ng-bind="stop.date"
-        span.stop-location ng-bind='stop.location'
+      div[ng-switch='' on='stop.editing']
+        div.editing ng-switch-when='true'
+          input.stop-date[ui-date='' ng-model="stop.date" placeholder='Date']
+          input.stop-location ng-model='stop.location' placeholder='location'
+          button.btn.btn-small ng-click='save(stop)' save
+        div[ng-switch-default]
+          i.icon-trash ng-click='destroy(stop)'
+          | &nbsp;
+          a href="/#/stops/edit/{{stop.id}}"
+            strong.stop-date
+              | {{stop.date | date:'yyyy-MM-dd'}}
+            span.stop-location ng-bind='stop.location'
 
 

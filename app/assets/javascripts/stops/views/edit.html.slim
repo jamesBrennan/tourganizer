@@ -1,7 +1,7 @@
 div
   .page-header
     h1 ng-bind='pageTitle'
-    input.stop-date[ui-date='stop.date' ng-model='stop.date' placeholder='Date']
+    input.stop-date[ui-date="" ng-model='stop.date' placeholder='Date']
     input.stop-location ng-model='stop.location' placeholder='location'
 
   section.venues
@@ -21,4 +21,4 @@ div
               input.property-key ng-model='property.key' placeholder='Info Type'
               input.property-value ng-model='property.value' placeholder='Info'
     footer.clearfix
-      button.btn.btn-save ng-click='save()' Save
+      button.btn.btn-save ng-click='save(stop)' Save
