@@ -11,11 +11,14 @@ div
         button.btn.btn-small ng-click='addVenue(stop)' +
       ul
         li ng-repeat='name in venueNames()'
-          span.venue-name ng-bind="name"
-          button.btn.btn-small ng-click='addProperty(name)' +
+          .control-group
+            i.icon-trash ng-click='deleteVenue(name)'
+            span.venue-name ng-bind="name"
+            button.btn.btn-small ng-click='addProperty(name)' +
           ul.venue-properties
             li.properties ng-repeat='property in venueProperties(name)'
-              input ng-model='property.key' placeholder='Info Type'
-              input ng-model='property.value' placeholder='Info'
+              i.icon-trash ng-click='deleteProperty(name, $index)'
+              input.property-key ng-model='property.key' placeholder='Info Type'
+              input.property-value ng-model='property.value' placeholder='Info'
     footer.clearfix
       button.btn.btn-save ng-click='save()' Save

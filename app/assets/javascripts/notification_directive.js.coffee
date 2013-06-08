@@ -1,4 +1,4 @@
-Tourganizer.NotificationDirective = ['$rootScope', ($rootScope) ->
+Tourganizer.NotificationDirective = ['$rootScope', '$timeout', ($rootScope, $timeout) ->
   template: "<div class='alert' ng-class='type' ng-show='show' ng-click='hide()'>{{message}}</div>"
   link: (scope, el) ->
     scope.show = false
@@ -8,6 +8,9 @@ Tourganizer.NotificationDirective = ['$rootScope', ($rootScope) ->
       scope.type = args.type
       scope.message = args.message
       scope.show = true
+      $timeout =>
+        $(el).hide(500)
+      , 4000
 ]
 
 angular.module('tourganizer').directive 'tNotification', Tourganizer.NotificationDirective;

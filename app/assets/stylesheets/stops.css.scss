@@ -26,17 +26,23 @@
   padding: 4px 10px;
 }
 
-ul {
-  margin-left: 10px;
-  list-style: none;
+ul.stops,
+ul.venue-properties {
   li {
-    .icon-trash {
-      visibility: hidden;
-    }
     &:hover {
       .icon-trash {
         visibility: visible;
       }
+    }
+  }
+}
+
+ul {
+  margin-left: 0px;
+  list-style: none;
+  li {
+    .icon-trash {
+      visibility: hidden;
     }
     input {
       width: 170px;
@@ -47,6 +53,9 @@ ul {
     button {
       margin-left: 10px;
     }
+    ul {
+      margin-left: 20px;
+    }
   }
 }
 
@@ -54,9 +63,33 @@ ul {
   margin-left: 10px;
   margin-top: 10px;
 }
+
+.venue-name {
+  margin-left: 10px;
+}
+
 .properties {
+  margin-bottom: 6px;
   input {
     display: inline-block;
+    margin-right: 6px;
+    &.property-key {
+      width: 100px;
+    }
+    &.property-value {
+      width: 300px;
+    }
+  }
+  i {
+    margin-right: 6px;
+  }
+}
+
+.venues ul li {
+  > div:hover {
+    .icon-trash {
+      visibility: visible;
+    }
   }
 }
 
@@ -71,7 +104,7 @@ ul {
 
 section.venues {
   .page-header {
-    span{
+    span {
       display: inline-block;
     }
     button {

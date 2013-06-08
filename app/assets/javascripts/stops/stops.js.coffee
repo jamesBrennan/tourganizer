@@ -23,11 +23,20 @@ EditMixin = ['$scope','save_method','$window', ($scope, save_method, $window) ->
   $scope.venueNames = ->
     _.keys($scope.stop.venues)
 
+  $scope.deleteVenue = (name) ->
+    if $window.confirm('Are you sure?')
+      $scope.stop.venues[name] = undefined
+      $scope.save()
+
   $scope.venueProperties = (name) ->
     $scope.stop.venues[name]
 
   $scope.addProperty = (name) ->
     $scope.venueProperties(name).push( key: "", value: "" )
+
+  $scope.deleteProperty = (name, index) ->
+    $scope.stop.venues[name][index] = undefined
+    $scope.save()
 ]
 
 angular.module('stops').value 'EditMixin', EditMixin
