@@ -10,7 +10,8 @@ div
         div.editing ng-switch-when='true'
           input.stop-date[ui-date='' ng-model="stop.date" placeholder='Date']
           input.stop-location ng-model='stop.location' placeholder='location'
-          button.btn.btn-small ng-click='save(stop)' save
+          button.btn.btn-small ng-click='cancel(stop)' cancel
+          button.btn.btn-small ng-click='listSave(stop)' save
         div[ng-switch-default]
           | &nbsp;
           a href="/#/stops/edit/{{stop.id}}"

@@ -4,8 +4,8 @@ SaveMixin = ['$scope', 'save_method', ($scope, save_method) ->
     stop.date = new Date(parts[0], parts[1] - 1, parts[2])
     stop
 
-  $scope.save = (stop) ->
-    stop[save_method] (stop) ->
+  $scope.save = (stop, method) ->
+    stop[method || save_method] (stop) ->
       $scope.parseDate(stop)
       $scope.$emit 'notify',
         type: 'info'
@@ -31,7 +31,7 @@ EditMixin = ['$scope', '$window', ($scope, $window) ->
       $scope.save($scope.stop)
 
   $scope.venueProperties = (name) ->
-    $scope.stop.venues[name]
+    $scope.stop.venues[name] ?= []
 
   $scope.addProperty = (name) ->
     $scope.venueProperties(name).push( key: "", value: "" )
@@ -66,6 +66,13 @@ Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', (
   $scope.edit = (stop) ->
     stop.date = new Date(stop.date)
     stop.editing = true
+
+  $scope.listSave = (stop) ->
+    method = if stop.id then '$update' else '$save'
+    $scope.save(stop, method)
+
+  $scope.cancel = (stop) ->
+    stop.editing = false
 ]
 
 Tourganizer.Stops.NewController = ['Stop', '$scope', '$window', '$injector', (Stop, $scope, $window, $injector) ->
