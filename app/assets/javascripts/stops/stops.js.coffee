@@ -53,7 +53,7 @@ Tourganizer.Stops.EditController = ['$scope', 'Stop', '$routeParams', '$injector
 Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', (Stop, $scope, $window, $injector) ->
   $scope.stops = Stop.query()
 
-  $injector.invoke(SaveMixin, @, $scope: $scope, save_method: '$save')
+  $injector.invoke(SaveMixin, @, $scope: $scope, save_method: '$update')
 
   $scope.destroy = (stop) ->
     if $window.confirm("Are you sure?")
@@ -62,6 +62,10 @@ Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', (
 
   $scope.addStop = () ->
     $scope.stops.push(new Stop(venues: {}, editing: true))
+
+  $scope.edit = (stop) ->
+    stop.date = new Date(stop.date)
+    stop.editing = true
 ]
 
 Tourganizer.Stops.NewController = ['Stop', '$scope', '$window', '$injector', (Stop, $scope, $window, $injector) ->

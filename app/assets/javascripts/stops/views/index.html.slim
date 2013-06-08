@@ -12,11 +12,13 @@ div
           input.stop-location ng-model='stop.location' placeholder='location'
           button.btn.btn-small ng-click='save(stop)' save
         div[ng-switch-default]
-          i.icon-trash ng-click='destroy(stop)'
           | &nbsp;
           a href="/#/stops/edit/{{stop.id}}"
             strong.stop-date
-              | {{stop.date | date:'yyyy-MM-dd'}}
+              | {{stop.date | date:'M.dd | EEE'}}
             span.stop-location ng-bind='stop.location'
+          .control-group
+            i.icon-pencil ng-click='edit(stop)'
+            i.icon-trash ng-click='destroy(stop)'
 
 

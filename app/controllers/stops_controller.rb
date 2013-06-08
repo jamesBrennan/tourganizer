@@ -2,7 +2,7 @@ class StopsController < ApplicationController
   respond_to :json
 
   def index
-    @stops = Stop.all
+    @stops = Stop.all.order(:date)
   end
 
   def create
