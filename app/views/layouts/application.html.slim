@@ -6,7 +6,7 @@ html ng-app='tourganizer' ng-controller='appController'
     = javascript_include_tag 'application'
     = csrf_meta_tag
 
-  body
+  body[t-keyup]
     #wrap
       .navbar.navbar-fixed-top
         .navbar-inner

@@ -1,5 +1,6 @@
 #= require vendor
 #= require_self
+#= require_directory ./lib
 #= require notification_directive
 #= require stops/module
 
@@ -9,9 +10,13 @@ window.Tourganizer =
 
 application = angular.module('tourganizer', ['ngResource', 'ui.date', 'stops'])
 
-application.value 'views', {}
-
-application.controller 'appController', ['$scope', '$window', ($scope, $window) ->
+application.controller 'appController', ['$scope', '$rootScope', '$q', ($scope, $rootScope, $q) ->
+  $rootScope.$on '$routeChangeSuccess', (ev, current, last) ->
+    $q.when(current.scope).then =>
+      if current.scope.keymap
+        $scope.keymap = current.scope.keymap
+      else
+        $scope.keymap = null
 ]
 
 application.config ["$httpProvider", "$routeProvider", ($httpProvider, $routeProvider) ->

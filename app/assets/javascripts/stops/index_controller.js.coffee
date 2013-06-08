@@ -2,6 +2,7 @@ Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', (
   $scope.stops = Stop.query()
 
   $injector.invoke(Tourganizer.Stops.SaveMixin, @, $scope: $scope, save_method: '$update')
+  $injector.invoke(Tourganizer.Stops.IndexHotkeysMixin, @, $scope: $scope)
 
   $scope.destroy = (stop) ->
     if $window.confirm("Are you sure?")
@@ -9,7 +10,12 @@ Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', (
         $scope.$emit 'notify', type: 'info', message: 'deleted'
 
   $scope.addStop = () ->
-    $scope.stops.push(new Stop(venues: {}, editing: true))
+    last_date = _.last($scope.stops).date
+    $scope.stops.push new Stop(venues: {}, editing: true)
+    _.last($scope.stops).date = last_date
+    stop = _.last($scope.stops)
+    $scope.parseDate(stop)
+    stop
 
   $scope.edit = (stop) ->
     stop.date = new Date(stop.date)
@@ -20,7 +26,11 @@ Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', (
     $scope.save(stop, method)
 
   $scope.cancel = (stop) ->
+    unless stop.id
+      index = $scope.stops.indexOf(stop)
+      $scope.stops.splice(index, 1)
     stop.editing = false
+
 ]
 
 angular.module('stops').controller 'StopIndexController', Tourganizer.Stops.IndexController

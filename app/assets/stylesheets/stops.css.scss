@@ -26,25 +26,26 @@
   padding: 4px 10px;
 }
 
-ul.stops,
-ul.venue-properties {
+ul {
   li {
-    &:hover {
-      .control-group {
-        visibility: visible;
-        i {
-          visibility:visible;
-        }
-      }
-    }
-    .editing {
-      margin-bottom: 8px;
+    &.editing {
+      margin: 4px 0;
+      background-color: transparent;
     }
     .control-group {
       visibility: hidden;
       display: inline-block;
       margin-bottom: 0;
     }
+  }
+}
+
+ul.stops {
+  li.selected {
+    .control-group {
+      visibility: visible;
+    }
+    background-color: #f2f2f2;
   }
 }
 
@@ -60,9 +61,6 @@ ul {
   margin-left: 0px;
   list-style: none;
   li {
-    .icon-trash {
-      visibility: hidden;
-    }
     input {
       width: 170px;
       &:first-child {
@@ -105,20 +103,15 @@ ul {
 }
 
 .venues ul li {
-  > div:hover {
-    .icon-trash {
-      visibility: visible;
-    }
-  }
 }
 
 .stop-date {
-  width: 80px;
+  width: 140px;
   margin-right: 20px;
 }
 
 .stop-location {
-  width: 300px;
+  width: 200px;
 }
 
 section.venues {

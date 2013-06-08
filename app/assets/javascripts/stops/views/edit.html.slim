@@ -13,12 +13,13 @@ div
         li ng-repeat='name in venueNames()'
           .control-group
             i.icon-trash ng-click='deleteVenue(name)'
-            span.venue-name ng-bind="name"
-            button.btn.btn-small ng-click='addProperty(name)' +
+          input.venue-name ng-model="name" t-focus='showControls($event)' t-blur='hideControls($event)' placeholder='Venue or contact name'
+          button.btn.btn-small ng-click='addProperty(name)' +
           ul.venue-properties
             li.properties ng-repeat='property in venueProperties(name)'
-              i.icon-trash ng-click='deleteProperty(name, $index)'
-              input.property-key ng-model='property.key' placeholder='Info Type'
-              input.property-value ng-model='property.value' placeholder='Info'
+              .control-group
+                i.icon-trash ng-click='deleteProperty(name, $index)'
+              input.property-key ng-model='property.key' t-focus='showControls($event)' t-blur='hideControls($event)' placeholder='Info Type'
+              input.property-value ng-model='property.value' t-focus='showControls($event)' t-blur='hideControls($event)' placeholder='Info'
     footer.clearfix
       button.btn.btn-save ng-click='save(stop)' Save

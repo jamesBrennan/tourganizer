@@ -9,7 +9,7 @@ Tourganizer.NotificationDirective = ['$rootScope', '$timeout', ($rootScope, $tim
       scope.message = args.message
       scope.show = true
       $timeout =>
-        $(el).hide(500)
+        scope.hide()
       , 4000
 ]
 

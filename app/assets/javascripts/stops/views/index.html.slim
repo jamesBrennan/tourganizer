@@ -5,21 +5,19 @@ div
       button.btn ng-click='addStop()' +
 
   ul.stops
-    li ng-repeat="stop in stops"
-      div[ng-switch='' on='stop.editing']
-        div.editing ng-switch-when='true'
-          input.stop-date[ui-date='' ng-model="stop.date" placeholder='Date']
-          input.stop-location ng-model='stop.location' placeholder='location'
-          button.btn.btn-small ng-click='cancel(stop)' cancel
-          button.btn.btn-small ng-click='listSave(stop)' save
-        div[ng-switch-default]
-          | &nbsp;
-          a href="/#/stops/edit/{{stop.id}}"
-            strong.stop-date
-              | {{stop.date | date:'M.dd | EEE'}}
-            span.stop-location ng-bind='stop.location'
-          .control-group
-            i.icon-pencil ng-click='edit(stop)'
-            i.icon-trash ng-click='destroy(stop)'
+    li ng-repeat="stop in stops" ng-switch='' on='stop.editing' class='stop-{{stop.id}}' ng-class='{selected: stop.selected}'
+      div.editing ng-switch-when='true'
+        input.stop-date type='date' ng-model='stop.date'
+        input.stop-location type='text' ng-model='stop.location' placeholder='location'
+        button.btn.btn-small ng-click='cancel(stop)' cancel
+        button.btn.btn-small ng-click='listSave(stop)' save
+      div[ng-switch-default]
+        a.stop-link href="/#/stops/edit/{{stop.id}}"
+          strong.stop-date
+            | {{stop.date | date:'M.dd | EEE'}}
+          span.stop-location ng-bind='stop.location'
+        .control-group
+          i.icon-pencil ng-click='edit(stop)'
+          i.icon-trash ng-click='destroy(stop)'
 
 
