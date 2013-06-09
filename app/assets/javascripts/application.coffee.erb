@@ -14,8 +14,8 @@ application.controller 'appController', ['$scope', '$rootScope', '$q', ($scope, 
   $rootScope.$on '$routeChangeSuccess', (ev, current, last) ->
     cancelWatch = $rootScope.$watch ->
       return unless current.scope?
-      cancelWatch()
       $scope.keymap = current.scope.keymap
+      cancelWatch()
 ]
 
 application.config ["$httpProvider", "$routeProvider", ($httpProvider, $routeProvider) ->
