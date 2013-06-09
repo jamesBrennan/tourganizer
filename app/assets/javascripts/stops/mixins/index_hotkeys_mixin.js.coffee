@@ -48,6 +48,7 @@ Tourganizer.Stops.IndexHotkeysMixin = ["$scope", ($scope) ->
   cancelEdit = (scope, locals) ->
     s = targetScope(locals)
     s.stop.editing = false
+    s.stops.pop() unless s.stop.id
     setFocus(s.stop, "a:first")
 
   saveEdit = (scope, locals) ->
