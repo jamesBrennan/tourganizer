@@ -2,7 +2,7 @@ Tourganizer.Stops.EditController = ['$scope', 'Stop', '$routeParams', '$injector
   Stop.get(id: $routeParams.id, (stop) ->
     $injector.invoke(Tourganizer.Stops.EditMixin, @, $scope: $scope)
     $injector.invoke(Tourganizer.Stops.SaveMixin, @, $scope: $scope, save_method: '$update')
-    $scope.stop = $scope.parseDate(stop)
+    $scope.stop = stop
     $scope.pageTitle = "#{$scope.stop.location}"
   )
 ]

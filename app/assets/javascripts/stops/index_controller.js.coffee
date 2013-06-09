@@ -7,15 +7,14 @@ Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', (
   $scope.destroy = (stop) ->
     if $window.confirm("Are you sure?")
       stop.$delete ->
+        $scope.stops.pop()
         $scope.$emit 'notify', type: 'info', message: 'deleted'
 
   $scope.addStop = () ->
     last_date = _.last($scope.stops).date
     $scope.stops.push new Stop(venues: {}, editing: true)
     _.last($scope.stops).date = last_date
-    stop = _.last($scope.stops)
-    $scope.parseDate(stop)
-    stop
+    _.last($scope.stops)
 
   $scope.edit = (stop) ->
     stop.date = new Date(stop.date)

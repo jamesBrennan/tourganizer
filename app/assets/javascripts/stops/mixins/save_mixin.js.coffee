@@ -1,12 +1,6 @@
 Tourganizer.Stops.SaveMixin = ['$scope', 'save_method', ($scope, save_method) ->
-  $scope.parseDate = (stop) ->
-    parts = stop.date.split("-")
-    stop.date = new Date(parts[0], parts[1] - 1, parts[2])
-    stop
-
   $scope.save = (stop, method) ->
-    stop[method || save_method] (stop) ->
-      $scope.parseDate(stop)
+    stop[method || save_method] ->
       $scope.$emit 'notify',
         type: 'info'
         message: 'Stop saved'

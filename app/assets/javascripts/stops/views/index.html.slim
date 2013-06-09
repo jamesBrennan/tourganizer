@@ -14,7 +14,7 @@ div
       div[ng-switch-default]
         a.stop-link href="/#/stops/edit/{{stop.id}}"
           strong.stop-date
-            | {{stop.date | date:'M.dd | EEE'}}
+            | {{stop.date | tDate:'full' }}
           span.stop-location ng-bind='stop.location'
         .control-group
           i.icon-pencil ng-click='edit(stop)'
