@@ -17,6 +17,7 @@ angular.module('tourganizer').factory('keypressHelper', ['$parse', '$q', functio
     46: 'delete'
   };
 
+  var modeNames = ['keydown', 'keyup', 'keypress'];
 
   return function(scope, elm) {
     if(typeof(scope) == 'undefined' || typeof(scope.keymap) == 'undefined') {
@@ -24,6 +25,8 @@ angular.module('tourganizer').factory('keypressHelper', ['$parse', '$q', functio
     }
     var params, combinations = [];
     var modes = _.keys(scope.keymap);
+
+    _.forEach(modeNames, function(name){ elm.unbind(name+".tourganizer") });
 
     _.forEach(modes, function(mode) {
       params = scope.keymap[mode];
@@ -45,7 +48,7 @@ angular.module('tourganizer').factory('keypressHelper', ['$parse', '$q', functio
       });
 
       // Check only matching of pressed keys one of the conditions
-      elm.bind(mode, function (event) {
+      elm.bind(mode + ".tourganizer", function (event) {
         // No need to do that inside the cycle
         var altPressed = !!(event.metaKey || event.altKey);
         var ctrlPressed = !!event.ctrlKey;
@@ -92,7 +95,7 @@ angular.module('tourganizer').directive('tKeymap', ['keypressHelper', function(k
   return {
     link: function (scope, elm, attrs) {
       scope.$watch('keymap', function() {
-        keypressHelper(scope, elm, attrs);
+        console.log(keypressHelper(scope, elm, attrs));
       });
     }
   };

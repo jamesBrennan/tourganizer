@@ -1,4 +1,4 @@
-div
+div.stop
   .page-header
     h1 ng-bind='pageTitle'
     input.stop-date[ui-date="" ng-model='stop.date' placeholder='Date']
@@ -10,7 +10,7 @@ div
         span Venues + Contacts
         button.btn.btn-small ng-click='addVenue()' +
       ul
-        li ng-repeat='name in venueNames()'
+        li.venue ng-repeat='name in venueNames()' data-name="{{name}}"
           .control-group
             i.icon-trash ng-click='deleteVenue(name)'
           input.venue-name ng-model="name" t-focus='showControls($event)' t-blur='hideControls($event)' placeholder='Venue or contact name'
