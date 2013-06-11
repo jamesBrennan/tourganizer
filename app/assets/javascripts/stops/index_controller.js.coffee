@@ -1,6 +1,31 @@
-Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', 'DB_DATE_FORMAT',
-  (Stop, $scope, $window, $injector, DB_DATE_FORMAT) ->
-    $scope.stops = Stop.query()
+Drive = (@from, @to, @service, $q) ->
+  console.log @
+
+  @calculateDistance = ->
+    deferred = $q.defer()
+    @service.getDistanceMatrix(
+      origins: [@from],
+      destinations: [@to],
+      travelMode: google.maps.TravelMode.DRIVING,
+      avoidHighways: false,
+      avoidTolls: false
+    , (response, status) ->
+      console.log response, status
+      deferred.resolve(response);
+    )
+    deferred.promise
+
+  @
+
+Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', 'DB_DATE_FORMAT', 'DistanceMatrixService', '$q'
+  (Stop, $scope, $window, $injector, DB_DATE_FORMAT, DistanceMatrixService, $q) ->
+
+    $scope.stops = Stop.query (stops) ->
+      _.each stops, (stop, index) ->
+        prev = stops[index - 1]
+        if prev
+          new Drive(prev.location, stop.location, DistanceMatrixService, $q).calculateDistance().then (response) ->
+            stop.drive = response
 
     $injector.invoke(Tourganizer.Stops.SaveMixin, @, $scope: $scope, save_method: '$update')
     $injector.invoke(Tourganizer.Stops.IndexHotkeysMixin, @, $scope: $scope)

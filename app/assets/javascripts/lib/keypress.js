@@ -100,7 +100,7 @@ angular.module('tourganizer').directive('tKeymap', ['keypressHelper', function(k
   return {
     link: function (scope, elm, attrs) {
       scope.$watch('keymap', function() {
-        console.log(keypressHelper(scope, elm, attrs));
+        keypressHelper(scope, elm, attrs);
       });
     }
   };

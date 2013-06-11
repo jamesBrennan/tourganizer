@@ -3,12 +3,13 @@
 #= require_directory ./lib
 #= require notification_directive
 #= require stops/module
+#= require maps/module
 
 window.Tourganizer =
   Stops: {}
   Config: {}
 
-application = angular.module('tourganizer', ['ngResource', 'stops'])
+application = angular.module('tourganizer', ['ngResource', 'stops', 'maps'])
 
 application.controller 'appController', ['$scope', '$rootScope', '$q', ($scope, $rootScope, $q) ->
   $rootScope.$on '$routeChangeSuccess', (ev, current, last) ->
