@@ -16,6 +16,8 @@ div
           strong.stop-date
             | {{stop.date | tDate:'full' }}
           span.stop-location ng-bind='stop.location'
+        span.info
+          | {{stop.drive.distance_matrix.distance.text}} . {{stop.drive.distance_matrix.duration.text}}
         .control-group
           i.icon-pencil ng-click='edit(stop)'
           i.icon-trash ng-click='destroy(stop)'

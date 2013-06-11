@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130607170511) do
+ActiveRecord::Schema.define(version: 20130611200642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "drives", force: true do |t|
+    t.integer  "origin_id"
+    t.integer  "destination_id"
+    t.json     "distance_matrix"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "json_schemas", force: true do |t|
     t.string "name"
@@ -28,6 +36,14 @@ ActiveRecord::Schema.define(version: 20130607170511) do
     t.date     "date"
     t.string   "location"
     t.json     "venues"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "tour_id"
+  end
+
+  create_table "tours", force: true do |t|
+    t.string   "name"
+    t.string   "artist"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

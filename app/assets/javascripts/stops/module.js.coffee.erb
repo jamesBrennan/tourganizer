@@ -1,7 +1,7 @@
 #= require_self
 #= require_tree
 
-angular.module('stops', ['ngResource']).config ['$routeProvider', ($routeProvider) ->
+angular.module('stops', ['ngResource', 'drives']).config ['$routeProvider', ($routeProvider) ->
 
   templates = {
     "edit": '<%= asset_path("stops/views/edit.html") %>'

@@ -3,6 +3,9 @@ class StopsController < ApplicationController
 
   def index
     @stops = Stop.all.order(:date)
+    @stops.each do |stop|
+      stop.drive = Drive.find_by_destination_id(stop.id)
+    end
   end
 
   def create

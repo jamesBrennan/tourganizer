@@ -17,15 +17,14 @@ Drive = (@from, @to, @service, $q) ->
 
   @
 
-Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', 'DB_DATE_FORMAT', 'DistanceMatrixService', '$q'
-  (Stop, $scope, $window, $injector, DB_DATE_FORMAT, DistanceMatrixService, $q) ->
+Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', 'DB_DATE_FORMAT', 'DriveService'
+  (Stop, $scope, $window, $injector, DB_DATE_FORMAT, DriveService) ->
 
     $scope.stops = Stop.query (stops) ->
       _.each stops, (stop, index) ->
         prev = stops[index - 1]
         if prev
-          new Drive(prev.location, stop.location, DistanceMatrixService, $q).calculateDistance().then (response) ->
-            stop.drive = response
+          DriveService.create(prev, stop)
 
     $injector.invoke(Tourganizer.Stops.SaveMixin, @, $scope: $scope, save_method: '$update')
     $injector.invoke(Tourganizer.Stops.IndexHotkeysMixin, @, $scope: $scope)

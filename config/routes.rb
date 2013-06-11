@@ -56,5 +56,11 @@ Tourganizer::Application.routes.draw do
     end
   end
 
+  resources :drives do
+    member do
+      delete 'destroy'
+    end
+  end
+
   root 'home#index'
 end
