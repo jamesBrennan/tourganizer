@@ -26,6 +26,8 @@ angular.module('tourganizer').factory('keypressHelper', ['$parse', '$q', functio
     var params, combinations = [];
     var modes = _.keys(scope.keymap);
 
+    scope.hotkeys_active = true;
+
     _.forEach(modeNames, function(name){ elm.unbind(name+".tourganizer") });
 
     _.forEach(modes, function(mode) {
@@ -33,11 +35,12 @@ angular.module('tourganizer').factory('keypressHelper', ['$parse', '$q', functio
       // Prepare combinations for simple checking
       angular.forEach(params, function (v, k) {
         var combination, expression;
-        expression = $parse(v);
+        expression = $parse(v.fn);
 
         angular.forEach(k.split(' '), function(variation) {
           combination = {
             expression: expression,
+            active_on_edit: v.active_on_edit,
             keys: {}
           };
           angular.forEach(variation.split('-'), function (value) {
@@ -76,9 +79,11 @@ angular.module('tourganizer').factory('keypressHelper', ['$parse', '$q', functio
             ( shiftRequired == shiftPressed )
           ) {
             // Run the function
-            scope.$apply(function () {
-              combination.expression(scope, { '$event': event });
-            });
+            if(!scope.editing || combination.active_on_edit) {
+              scope.$apply(function () {
+                combination.expression(scope, { '$event': event });
+              });
+            }
           }
         });
       });

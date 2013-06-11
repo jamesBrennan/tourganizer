@@ -62,16 +62,19 @@ Tourganizer.Stops.IndexHotkeysMixin = ["$scope", "$q", ($scope, $q) ->
     stop = listScope().after selected()
     if stop then selectAndFocus(stop) else selectFirst()
 
-  newStop = ->
+  newStop = (scope) ->
+    scope.editing = true
     stop = listScope().addStop()
     selectAndFocus stop, 'input:first'
 
   edit = (scope, locals) ->
+    scope.editing = true
     stop = targetStop(locals)
     stop.editing = true
     setFocus stop
 
   cancelEdit = (scope, locals) ->
+    scope.editing = false
     stop = targetStop(locals)
     return unless stop
     stop.editing = false
@@ -93,17 +96,30 @@ Tourganizer.Stops.IndexHotkeysMixin = ["$scope", "$q", ($scope, $q) ->
 
   $scope.keymap =
     keyup:
-      'tab': select
-      'shift-tab': select
-      'alt-78': newStop #n
-      'alt-69': edit #e
-      'alt-68': deleteStop #d
-      'alt-83': saveEdit #s
-      'alt-76': selectLast #l
-      'alt-70': selectFirst #f
-      'esc': cancelEdit
+      'tab':
+        fn: select
+      'shift-tab':
+        fn: select
+      'alt-78': #n
+        fn: newStop
+      '69': #e
+        fn: edit
+      'alt-68': #d
+        fn: deleteStop
+      'alt-83': #s
+        fn: saveEdit
+        active_on_edit: true
+      'alt-76': #l
+        fn: selectLast
+      'alt-70': #f
+        fn: selectFirst
+      'esc':
+        fn: cancelEdit
+        active_on_edit: true
     keypress:
-      'up': selectPrev
-      'down': selectNext
+      'up':
+        fn: selectPrev
+      'down':
+        fn: selectNext
 ]
 
