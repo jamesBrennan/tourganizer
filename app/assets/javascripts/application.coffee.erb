@@ -2,6 +2,7 @@
 #= require_self
 #= require_directory ./lib
 #= require notification_directive
+#= require schedule_service
 #= require stops/module
 #= require drives/module
 #= require maps/module
@@ -9,7 +10,7 @@
 window.Tourganizer =
   Stops: {}
   Drives: {}
-  Config: {}
+  Util: {}
 
 application = angular.module('tourganizer', ['ngResource', 'stops', 'maps'])
 

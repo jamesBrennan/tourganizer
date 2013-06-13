@@ -7,12 +7,16 @@ div
   table.stops
     thead
       tr
+        th
         th Date
         th Location
         th Distance
         th Time
     tbody
       tr ng-repeat="stop in stops" class='stop-{{stop.id || "new"}}' t-stop-hotkeys='stop' ng-class='{selected: stop.selected, editing: stop.editing}'
+        td.stop-checked ng-switch='' on='stop.marked'
+          i.icon-check ng-switch-when='true'
+          span ng-switch-default='' &nbsp;
         td ng-switch='' on='stop.editing'
           input.stop-date ng-switch-when='true' type='date' ng-model='stop.date'
           a href='/#/stops/edit/{{stop.id}}'

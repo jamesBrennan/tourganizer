@@ -1,9 +1,9 @@
-Tourganizer.Stops.StopsHotkeysMixin = ["$scope", "$q", ($scope, $q) ->
+Tourganizer.Stops.StopsHotkeysMixin = ["$scope", "ScheduleService", '$document', ($scope, ScheduleService, $document) ->
 
   #convenience methods
   listScope   = -> $('table.stops').scope()
-  selected    = -> listScope().selected()
-  stops       = -> listScope().stoplist
+  stoplist    = -> listScope().stoplist
+  stops       = -> listScope().stoplist.stops
   targetScope = (locals) -> $(locals.$event.target).scope()
 
   select = (scope, locals) ->
@@ -33,6 +33,10 @@ Tourganizer.Stops.StopsHotkeysMixin = ["$scope", "$q", ($scope, $q) ->
     stop = listScope().addStop()
     selectAndFocus stop
 
+  shiftDates = ->
+    days = window.prompt('How many days?')
+    ScheduleService.nudgeDays stoplist(), days
+
   states =
     navigating:
       keyup:
@@ -41,6 +45,7 @@ Tourganizer.Stops.StopsHotkeysMixin = ["$scope", "$q", ($scope, $q) ->
         '78': newStop #n
         '76': selectLast #l
         '70': selectFirst #f
+        'shift-68': shiftDates #d
       keypress:
         'up': selectPrev
         'down': selectNext

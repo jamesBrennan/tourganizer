@@ -20,9 +20,11 @@ Tourganizer.Stops.StopHotkeysMixin = ["$scope", ($scope) ->
     $scope.save($scope.stop)
 
   deleteStop = (scope, locals) ->
-    return if $scope.editing
     locals.$event.stopImmediatePropagation();
     $scope.destroy($scope.stop)
+
+  toggleMark = () ->
+    $scope.stop.marked = if $scope.stop.marked then false else true
 
   states =
     navigating:
@@ -30,6 +32,7 @@ Tourganizer.Stops.StopHotkeysMixin = ["$scope", ($scope) ->
         '69': enterEdit #e
         '68': deleteStop #d
         '79': open #o
+        '77': toggleMark
     editing:
       keyup:
         'esc': cancelEdit
