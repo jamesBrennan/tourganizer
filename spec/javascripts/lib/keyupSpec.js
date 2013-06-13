@@ -1,3 +1,4 @@
+/*
 describe('tKeyup', function () {
 
   var $scope, $compile;
@@ -65,3 +66,4 @@ describe('tKeyup', function () {
     expect($scope.event2.keyCode).toBe(13);
   });
 });
+*/

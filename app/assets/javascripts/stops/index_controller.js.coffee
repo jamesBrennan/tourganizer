@@ -1,55 +1,38 @@
-Drive = (@from, @to, @service, $q) ->
-  console.log @
-
-  @calculateDistance = ->
-    deferred = $q.defer()
-    @service.getDistanceMatrix(
-      origins: [@from],
-      destinations: [@to],
-      travelMode: google.maps.TravelMode.DRIVING,
-      avoidHighways: false,
-      avoidTolls: false
-    , (response, status) ->
-      console.log response, status
-      deferred.resolve(response);
-    )
-    deferred.promise
-
-  @
-
 Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', 'DB_DATE_FORMAT', 'DriveService'
   (Stop, $scope, $window, $injector, DB_DATE_FORMAT, DriveService) ->
 
     $scope.stops = Stop.query (stops) ->
-      _.each stops, (stop, index) ->
-        prev = stops[index - 1]
-        if prev
-          DriveService.create(prev, stop)
+      console.log 'running stops'
+      $scope.stoplist = new Tourganizer.Stops.StopList($scope)
 
-    $injector.invoke(Tourganizer.Stops.SaveMixin, @, $scope: $scope, save_method: '$update')
-    $injector.invoke(Tourganizer.Stops.IndexHotkeysMixin, @, $scope: $scope)
+    $injector.invoke(Tourganizer.Stops.SaveMixin, @, $scope: $scope)
+    $injector.invoke(Tourganizer.Stops.StopsHotkeysMixin, @, $scope: $scope)
 
     $scope.destroy = (stop) ->
       if $window.confirm("Are you sure?")
+        $scope.stoplist.remove(stop)
         stop.$delete ->
-          $scope.stops.pop()
           $scope.$emit 'notify', type: 'info', message: 'deleted'
 
     addDay = (date_string, format = DB_DATE_FORMAT) ->
       moment(date_string, format).add('days', 1).format(format)
 
-    $scope.selected = () ->
-      _.find $scope.stops, (stop) -> stop.selected
+    $scope.selected = ->
+      $scope.stoplist.selected()
 
     $scope.before = (stop) ->
-      index = $scope.stops.indexOf(stop)
-      return null if index == 0
-      $scope.stops[index-1]
+      $scope.stoplist.before(stop)
 
     $scope.after = (stop) ->
-      index = $scope.stops.indexOf(stop)
-      return null if index == $scope.stops.length - 1
-      $scope.stops[index+1]
+      $scope.stoplist.after(stop)
+
+    $scope.focus = (stop) ->
+      el = if stop.editing then 'input:first' else 'a:first'
+      finder = [el, ".stop-#{stop.id || 'new'}"]
+      watch_count = 0
+      cancel_watch = $scope.$watch ->
+        cancel_watch() if watch_count > 8 || $(finder...).length && $(finder...).focus()
+        watch_count++
 
     $scope.addStop = () ->
       stop = new Stop(
@@ -60,20 +43,20 @@ Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', '
       $scope.stops.push stop
       _.last($scope.stops)
 
+    $scope.enterEdit = (stop) ->
+      stop.editing = true
+      $scope.editing = true
+
+    $scope.exitEdit = (stop) ->
+      stop.editing = false
+      $scope.editing = false
+
     $scope.edit = (stop) ->
       stop.date = new Date(stop.date)
-      stop.editing = true
 
-    $scope.listSave = (stop) ->
-      method = if stop.id then '$update' else '$save'
-      $scope.save(stop, method)
-
-    $scope.cancel = (stop) ->
-      unless stop.id
-        index = $scope.stops.indexOf(stop)
-        $scope.stops.splice(index, 1)
-      stop.editing = false
-
+    $scope.$watch 'stoplist.editing()', (editing) ->
+      unless editing
+        $scope.stoplist.cleanup() if $scope.stoplist
 ]
 
 angular.module('stops').controller 'StopIndexController', Tourganizer.Stops.IndexController

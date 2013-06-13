@@ -3,6 +3,9 @@
   input.stop-location {
     margin-top: 12px;
   }
+  th {
+    text-align: left;
+  }
 }
 
 .stop-date {
@@ -43,8 +46,8 @@ ul {
   }
 }
 
-ul.stops {
-  li.selected {
+.stops {
+  .selected {
     .control-group {
       visibility: visible;
     }

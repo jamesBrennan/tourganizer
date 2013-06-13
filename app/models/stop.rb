@@ -1,4 +1,4 @@
 class Stop < ActiveRecord::Base
   validates_presence_of :date, :location
-  attr_accessor :drive
+  has_many :drives, foreign_key: 'destination_id'
 end

@@ -1,22 +1,33 @@
-Tourganizer.Drives.DriveService = (Drive, Stop, DistanceMatrixService) ->
+Tourganizer.Drives.DriveService = (Drive, Stop, DistanceMatrixService, $q) ->
   @drives = {}
 
-  create: (origin, destination) ->
-    drive = new Drive(origin_id: origin.id, destination_id: destination.id)
-    drive.$save(->
-      unless drive.distance_matrix
-        DistanceMatrixService.getDistanceMatrix(
-          origins: [drive.origin.location],
-          destinations: [drive.destination.location],
-          travelMode: google.maps.TravelMode.DRIVING,
-          avoidHighways: false,
-          avoidTolls: false,
-          unitSystem: google.maps.UnitSystem.IMPERIAL
-        , (response) ->
-          drive.distance_matrix = response.rows[0].elements[0]
-          drive.$update()
-        )
-    )
+  matrix_params = (from, to) ->
+    origins: [from],
+    destinations: [to],
+    travelMode: google.maps.TravelMode.DRIVING,
+    avoidHighways: false,
+    avoidTolls: false,
+    unitSystem: google.maps.UnitSystem.IMPERIAL
 
-Tourganizer.Drives.$inject = ['Drive']
+  find_or_create: (args) ->
+    {from, to} = args
+    deferred = $q.defer()
+    Drive.query {origin_id: from.id, destination_id: to.id}, (drives) ->
+      if drives.length
+        deferred.resolve(drives)
+      else
+        DistanceMatrixService.getDistanceMatrix matrix_params(from.location, to.location),
+            (response) ->
+              new Drive(
+                origin_id: from.id,
+                destination_id: to.id,
+                distance_matrix: response.rows[0].elements[0]
+              ).
+              $save (drive) ->
+                deferred.resolve(drive)
+
+    deferred.promise
+
+
+Tourganizer.Drives.DriveService.$inject = ['Drive', 'Stop', 'DistanceMatrixService', '$q']
 angular.module('drives').service 'DriveService', Tourganizer.Drives.DriveService
