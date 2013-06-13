@@ -5,29 +5,68 @@ Tourganizer.Stops.StopsHotkeysMixin = ["$scope", "ScheduleService", '$document',
   stoplist    = -> listScope().stoplist
   stops       = -> listScope().stoplist.stops
   targetScope = (locals) -> $(locals.$event.target).scope()
+  current     = -> $(document.activeElement).scope().stop
 
   select = (scope, locals) ->
     s = targetScope(locals)
-    stops().select(s.stop) if s.stop && s.stops
+    stoplist().select(s.stop) if s.stop && s.stops
 
   selectAndFocus = (stop) ->
-    stops().select stop
+    stoplist().selectOnly stop
     listScope().focus(stop)
     stop
 
   selectFirst = ->
-    selectAndFocus stops().first()
+    selectAndFocus stoplist().first()
 
   selectLast = ->
-    selectAndFocus stops().last()
+    selectAndFocus stoplist().last()
 
   selectPrev = ->
-    stop = listScope().before selected()
+    stop = stoplist().beforeSelection()
     if stop then selectAndFocus(stop) else selectLast()
 
   selectNext = ->
-    stop = listScope().after selected()
+    stop = stoplist().afterSelection()
     if stop then selectAndFocus(stop) else selectFirst()
+
+  mulitSelectPrev = ->
+    list = stoplist()
+
+    if list.selected().length == 1
+      list.select_root = current()
+      list.last_selected = current()
+
+    stop = list.before current()
+
+    if stop
+      if stop.selected
+        if list.closerToRoot(stop)
+          list.deselect(list.last_selected)
+        else
+          list.deselect(stop)
+      else
+        list.select(stop)
+      listScope().focus(stop)
+
+  mulitSelectNext = ->
+    list = stoplist()
+    if list.selected().length == 1
+      list.select_root = current()
+      list.last_selected = current()
+
+    stop = list.after current()
+
+    if stop
+      if stop.selected
+        if list.closerToRoot(stop)
+          list.deselect(list.last_selected)
+        else
+          list.deselect(stop)
+      else
+        list.select(stop)
+      listScope().focus(stop)
+      list.last_selected = stop
 
   newStop = ->
     stop = listScope().addStop()
@@ -49,6 +88,8 @@ Tourganizer.Stops.StopsHotkeysMixin = ["$scope", "ScheduleService", '$document',
       keypress:
         'up': selectPrev
         'down': selectNext
+        'shift-up': mulitSelectPrev
+        'shift-down': mulitSelectNext
     editing: {
       keyup: {}
       keypress: {}
