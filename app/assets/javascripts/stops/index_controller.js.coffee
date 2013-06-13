@@ -1,8 +1,7 @@
 Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', 'DB_DATE_FORMAT', 'DriveService'
   (Stop, $scope, $window, $injector, DB_DATE_FORMAT, DriveService) ->
 
-    $scope.stops = Stop.query (stops) ->
-      console.log 'running stops'
+    $scope.stops = Stop.query () ->
       $scope.stoplist = new Tourganizer.Stops.StopList($scope)
 
     $injector.invoke(Tourganizer.Stops.SaveMixin, @, $scope: $scope)
@@ -53,6 +52,9 @@ Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', '
 
     $scope.edit = (stop) ->
       stop.date = new Date(stop.date)
+
+    $scope.listSave = (stop) ->
+      $scope.save(stop)
 
     $scope.$watch 'stoplist.editing()', (editing) ->
       unless editing

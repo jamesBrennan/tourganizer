@@ -25,7 +25,8 @@ div
           span.control-group ng-switch-when='true'
             button.btn.btn-small ng-click='cancel(stop)' cancel
             button.btn.btn-small ng-click='listSave(stop)' save
-          span.drive-distance ng-switch-default='' ng-bind='drive.distance_matrix.distance.text'
+          span.drive-distance ng-switch-default=''
+            span ng-bind='drives[0].distance_matrix.distance.text'
         td ng-switch='' on='stop.editing'
           span ng-switch-when='true' &nbsp;
-          span.drive-time ng-switch-default='' ng-bind='drive.distance_matrix.duration.text'
+          span.drive-time ng-switch-default='' ng-bind='drives[0].distance_matrix.duration.text'
