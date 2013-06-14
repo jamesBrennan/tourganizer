@@ -74,6 +74,19 @@ describe 'MultiSelect', ->
       @multi.include(@stop4)
       expect(@multi.exclude(@stop3)).toBe false
 
+  describe 'reset', ->
+    beforeEach ->
+      @stop4 = @stoplist.stops[4]
+      @multi.reset(@stop4)
+
+    it 'sets the root to the given element', ->
+      expect(@multi.root).toEqual @stop4
+
+    it 'sets root to the only member of .selected', ->
+      expect(@multi.selected).toEqual [undefined, undefined, undefined, undefined, @stop4]
+
+    it 'sets the selected property of the given element to true', ->
+      expect(@stop4.selected).toBe true
 
   describe 'moveCursorTo', ->
 

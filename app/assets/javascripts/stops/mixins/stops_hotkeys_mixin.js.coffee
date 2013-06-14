@@ -1,4 +1,6 @@
-Tourganizer.Stops.StopsHotkeysMixin = ["$scope", "ScheduleService", '$document', ($scope, ScheduleService, $document) ->
+Tourganizer.Stops.StopsHotkeysMixin = ($scope, ScheduleService) ->
+
+  MultiSelect = Tourganizer.Util.MultiSelect
 
   #convenience methods
   listScope   = -> $('table.stops').scope()
@@ -6,6 +8,10 @@ Tourganizer.Stops.StopsHotkeysMixin = ["$scope", "ScheduleService", '$document',
   stops       = -> listScope().stoplist.stops
   targetScope = (locals) -> $(locals.$event.target).scope()
   current     = -> $(document.activeElement).scope().stop
+
+  $scope.listScope = -> listScope()
+  $scope.targetScope = (locals) -> targetScope(locals)
+  $scope.current = -> current()
 
   select = (scope, locals) ->
     s = targetScope(locals)
@@ -108,5 +114,5 @@ Tourganizer.Stops.StopsHotkeysMixin = ["$scope", "ScheduleService", '$document',
       enterEdit()
     else
       exitEdit()
-]
 
+Tourganizer.Stops.StopsHotkeysMixin.$inject = ["$scope", "ScheduleService"]

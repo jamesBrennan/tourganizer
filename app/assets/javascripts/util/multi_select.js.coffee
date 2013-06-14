@@ -2,6 +2,9 @@ class Tourganizer.Util.MultiSelect
   constructor: (@root, @list) ->
     if @_pos(@root) < 0
       throw new Error("MultiSelect: root must be a member of list.")
+    @reset(@root)
+
+  reset: (@root) ->
     @selected = []
     @include(@root, false)
 
