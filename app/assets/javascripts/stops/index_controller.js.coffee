@@ -4,26 +4,19 @@ Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', '
     $scope.stops = Stop.query () ->
       $scope.stoplist = new Tourganizer.Stops.StopList($scope)
 
+    $scope.multi = new Tourganizer.Util.MultiSelect($scope.stops)
     $injector.invoke(Tourganizer.Stops.SaveMixin, @, $scope: $scope)
-    $injector.invoke(Tourganizer.Stops.StopsHotkeysMixin, @, $scope: $scope)
+    $injector.invoke(Tourganizer.Stops.MultiSelectHotkeysMixin, @, $scope: $scope, multiselect: $scope.multi)
 
     $scope.destroy = (stop) ->
       if $window.confirm("Are you sure?")
         $scope.stoplist.remove(stop)
+        location = stop.location
         stop.$delete ->
-          $scope.$emit 'notify', type: 'info', message: 'deleted'
+          $scope.$emit 'notify', type: 'info', message: "#{location} deleted."
 
     addDay = (date_string, format = DB_DATE_FORMAT) ->
       moment(date_string, format).add('days', 1).format(format)
-
-    $scope.selected = ->
-      $scope.stoplist.selected()
-
-    $scope.before = (stop) ->
-      $scope.stoplist.before(stop)
-
-    $scope.after = (stop) ->
-      $scope.stoplist.after(stop)
 
     $scope.focus = (stop) ->
       el = if stop.editing then 'input:first' else 'a:first'
@@ -55,6 +48,10 @@ Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', '
 
     $scope.listSave = (stop) ->
       $scope.save(stop)
+
+    $scope.$watch 'multi.cursor', (cursor) ->
+      unless cursor == undefined
+        $scope.focus($scope.stops[cursor])
 
     $scope.$watch 'stoplist.editing()', (editing) ->
       unless editing

@@ -18,3 +18,13 @@ class Tourganizer.Stops.StopList
 
   cleanup: ->
     _.each @stops, (stop) => @remove(stop) unless stop.id
+
+  before: (stop) ->
+    idx = @stops.indexOf(stop)
+    return null if idx == 0
+    @stops[idx-1]
+
+  after: (stop) ->
+    idx = @stops.indexOf(stop)
+    return null if idx == @stops.length - 1
+    @stops[idx+1]

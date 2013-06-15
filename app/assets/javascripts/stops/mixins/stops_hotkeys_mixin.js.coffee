@@ -1,101 +1,18 @@
 Tourganizer.Stops.StopsHotkeysMixin = ($scope, ScheduleService) ->
 
-  MultiSelect = Tourganizer.Util.MultiSelect
+  functions =
+    newStop: ->
 
-  #convenience methods
-  listScope   = -> $('table.stops').scope()
-  stoplist    = -> listScope().stoplist
-  stops       = -> listScope().stoplist.stops
-  targetScope = (locals) -> $(locals.$event.target).scope()
-  current     = -> $(document.activeElement).scope().stop
-
-  $scope.listScope = -> listScope()
-  $scope.targetScope = (locals) -> targetScope(locals)
-  $scope.current = -> current()
-
-  select = (scope, locals) ->
-    s = targetScope(locals)
-    stoplist().select(s.stop) if s.stop && s.stops
-
-  selectAndFocus = (stop) ->
-    stoplist().selectOnly stop
-    listScope().focus(stop)
-    stop
-
-  selectFirst = ->
-    selectAndFocus stoplist().first()
-
-  selectLast = ->
-    selectAndFocus stoplist().last()
-
-  selectPrev = ->
-    stop = stoplist().beforeSelection()
-    if stop then selectAndFocus(stop) else selectLast()
-
-  selectNext = ->
-    stop = stoplist().afterSelection()
-    if stop then selectAndFocus(stop) else selectFirst()
-
-  mulitSelectPrev = ->
-    list = stoplist()
-
-    if list.selected().length == 1
-      list.select_root = current()
-      list.last_selected = current()
-
-    stop = list.before current()
-
-    if stop
-      if stop.selected
-        if list.closerToRoot(stop)
-          list.deselect(list.last_selected)
-        else
-          list.deselect(stop)
-      else
-        list.select(stop)
-      listScope().focus(stop)
-
-  mulitSelectNext = ->
-    list = stoplist()
-    if list.selected().length == 1
-      list.select_root = current()
-      list.last_selected = current()
-
-    stop = list.after current()
-
-    if stop
-      if stop.selected
-        if list.closerToRoot(stop)
-          list.deselect(list.last_selected)
-        else
-          list.deselect(stop)
-      else
-        list.select(stop)
-      listScope().focus(stop)
-      list.last_selected = stop
-
-  newStop = ->
-    stop = listScope().addStop()
-    selectAndFocus stop
-
-  shiftDates = ->
-    days = window.prompt('How many days?')
-    ScheduleService.nudgeDays stoplist(), days
+    shiftDates: ->
+      days = window.prompt('How many days?')
+      ScheduleService.nudgeDays stoplist(), days
 
   states =
     navigating:
+      keypress: {}
       keyup:
-        'tab': select
-        'shift-tab': select
-        '78': newStop #n
-        '76': selectLast #l
-        '70': selectFirst #f
-        'shift-68': shiftDates #d
-      keypress:
-        'up': selectPrev
-        'down': selectNext
-        'shift-up': mulitSelectPrev
-        'shift-down': mulitSelectNext
+        '78': functions.newStop #n
+        'shift-68': functions.shiftDates #d
     editing: {
       keyup: {}
       keypress: {}
@@ -107,6 +24,7 @@ Tourganizer.Stops.StopsHotkeysMixin = ($scope, ScheduleService) ->
   exitEdit = ->
     $scope.setKeymap states.navigating
 
+  $scope.select_list_functions = functions
   $scope.keymap = states.navigating
 
   $scope.$watch 'stoplist.editing()', (editing) ->

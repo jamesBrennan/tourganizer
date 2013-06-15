@@ -4,7 +4,7 @@ describe 'MultiSelect', ->
     @MultiSelect = Tourganizer.Util.MultiSelect
     @stoplist = Factory.build('stoplist')
     @root = @stoplist.stops[2]
-    @multi = new @MultiSelect(@root, @stoplist.stops)
+    @multi = new @MultiSelect(@stoplist.stops, @root)
 
   describe 'constructor', ->
     it 'assigns root and list', ->
@@ -12,10 +12,16 @@ describe 'MultiSelect', ->
       expect(@multi.list).toEqual(@stoplist.stops)
 
     it 'throws an error if root is not a member of list', ->
-      expect( => new @MultiSelect({}, @stoplist.stops)).toThrow new Error('MultiSelect: root must be a member of list.')
+      expect( => new @MultiSelect(@stoplist.stops, {})).toThrow new Error('MultiSelect: Element must be a member of list.')
 
     it 'sets the cursor to the position of root', ->
       expect(@multi.cursor).toEqual @stoplist.stops.indexOf(@root)
+
+    it 'accepts a list with no root', ->
+      multi = new @MultiSelect(@stoplist.stops)
+      expect(multi.list).toEqual(@stoplist.stops)
+      expect(multi.root).toBeUndefined()
+      expect(multi.cursor).toBeUndefined()
 
   describe 'include', ->
     beforeEach ->
@@ -38,7 +44,7 @@ describe 'MultiSelect', ->
       expect(@multi.cursor).toEqual @selected.indexOf(@stop)
 
     it 'throws an error if passed element is not a member of list', ->
-      expect( => @multi.include({})).toThrow new Error("MultiSelect: included element must be member of list.")
+      expect( => @multi.include({})).toThrow new Error("MultiSelect: Element must be a member of list.")
 
     it 'returns false if passed an element that is not adjacent to the upper index of .selected', ->
       expect(@multi.include(@stoplist.stops[5])).toBe false
@@ -88,6 +94,9 @@ describe 'MultiSelect', ->
     it 'sets the selected property of the given element to true', ->
       expect(@stop4.selected).toBe true
 
+    it 'sets the selected property of all other elements to false', ->
+      expect(@root.selected).toBe false
+
   describe 'moveCursorTo', ->
 
     it 'selects element under cursor if it is not selected', ->
@@ -102,5 +111,19 @@ describe 'MultiSelect', ->
       @multi.moveCursorTo(3)
       expect(stop4.selected).toBe false
 
+    it 'returns selected if asked to move cursor outside of list bounds', ->
+      @multi.reset(@stoplist.stops[0])
+      expect(@multi.moveCursorTo(@multi.cursor - 1)).toEqual [@stoplist.stops[0]]
+      @multi.reset(_.last @stoplist.stops)
+      expect(@multi.moveCursorTo(@stoplist.stops.length)).toEqual [undefined, undefined, undefined, undefined, undefined, undefined, @stoplist.stops[6]]
 
+    it 'works desceding and then ascending', ->
+      @multi.reset(@stoplist.stops[5])
+      @multi.moveCursorTo(4)
+      @multi.moveCursorTo(3)
+      @multi.moveCursorTo(2)
+      @multi.moveCursorTo(1)
+      @multi.moveCursorTo(2)
+      @multi.moveCursorTo(3)
+      expect(@multi.selected).toEqual [undefined, undefined, undefined, @stoplist.stops[3], @stoplist.stops[4], @stoplist.stops[5]]
 

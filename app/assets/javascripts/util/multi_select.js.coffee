@@ -1,19 +1,16 @@
 class Tourganizer.Util.MultiSelect
-  constructor: (@root, @list) ->
-    if @_pos(@root) < 0
-      throw new Error("MultiSelect: root must be a member of list.")
-    @reset(@root)
+  constructor: (@list, @root) ->
+    @reset @root if @root
 
   reset: (@root) ->
+    _.each @list, (el) -> el.selected = false
     @selected = []
     @include(@root, false)
 
   include: (el, enforce_adjacency = true) ->
     pos = @_pos(el)
-
-    throw new Error("MultiSelect: included element must be member of list.") if pos < 0
+    throw new Error("MultiSelect: Element must be a member of list.") if pos < 0
     return false if enforce_adjacency and not @_isAdjacent(pos)
-
     el.selected = true
     @selected[pos] = el
     @cursor = pos
@@ -21,29 +18,32 @@ class Tourganizer.Util.MultiSelect
 
   exclude: (el) ->
     pos = @_pos(el)
-    upper = @_is_upper(pos)
-    lower = @_is_lower(pos)
-    return false unless upper or lower
+    is_upper = @_is_upper(pos)
+    is_lower = @_is_lower(pos)
+    return false unless is_upper or is_lower
     el.selected = false
-    if upper
+    if is_upper
       @selected.pop()
       @cursor = @_upper_index()
     else
-      @selected.shift()
+      @selected.splice(@_lower_index(), 1, undefined)
       @cursor = @_lower_index()
     @selected
 
   moveCursorTo: (index) ->
+    return @selected if index < 0 or index > @list.length - 1
     el = @list[index]
-    upper = @_upper_index()
-    lower = @_lower_index()
     if el.selected
-      if index == upper - 1
-        @exclude(@selected[upper])
-      else
-        @exclude(@selected[lower])
+      step = if @_is_desc(index, @cursor) then 1 else -1
+      @exclude(@list[index + step])
     else
       @include(el)
+
+  _is_asc: (current_idx, prev_idx) ->
+    current_idx - prev_idx == 1
+
+  _is_desc: (current_idx, prev_idx) ->
+    current_idx - prev_idx == -1
 
   _pos: (el) ->
     @list.indexOf(el)
