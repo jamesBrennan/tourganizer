@@ -1,19 +1,20 @@
-Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', 'DB_DATE_FORMAT', 'DriveService'
-  (Stop, $scope, $window, $injector, DB_DATE_FORMAT, DriveService) ->
+Tourganizer.Stops.IndexController = [
+  'Stop', '$scope', '$window', '$injector', 'DB_DATE_FORMAT', 'DriveService', 'ScheduleService', '$q'
+  (Stop, $scope, $window, $injector, DB_DATE_FORMAT, DriveService, ScheduleService, $q) ->
 
     $scope.stops = Stop.query () ->
-      $scope.stoplist = new Tourganizer.Stops.StopList($scope)
+      $scope.stoplist = new Tourganizer.Stops.StopList($scope, $injector)
 
     $scope.multi = new Tourganizer.Util.MultiSelect($scope.stops)
     $injector.invoke(Tourganizer.Stops.SaveMixin, @, $scope: $scope)
     $injector.invoke(Tourganizer.Stops.MultiSelectHotkeysMixin, @, $scope: $scope, multiselect: $scope.multi)
 
-    $scope.destroy = (stop) ->
+    $scope.destroy = (stops) ->
       if $window.confirm("Are you sure?")
-        $scope.stoplist.remove(stop)
-        location = stop.location
-        stop.$delete ->
-          $scope.$emit 'notify', type: 'info', message: "#{location} deleted."
+        $scope.stoplist.remove(stops)
+        locations = _.pluck stops, 'location'
+        $q.all(_.map stops, (stop) -> stop.$delete()).then ->
+          $scope.$emit 'notify', type: 'info', message: "#{locations.join(" and ")} deleted."
 
     addDay = (date_string, format = DB_DATE_FORMAT) ->
       moment(date_string, format).add('days', 1).format(format)
@@ -34,6 +35,10 @@ Tourganizer.Stops.IndexController = ['Stop', '$scope', '$window', '$injector', '
       )
       $scope.stops.push stop
       _.last($scope.stops)
+
+    $scope.shiftDates = (stops) ->
+      days = window.prompt('How many days?')
+      ScheduleService.nudgeDays stops, days
 
     $scope.enterEdit = (stop) ->
       stop.editing = true

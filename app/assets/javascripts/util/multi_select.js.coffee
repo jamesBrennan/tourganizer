@@ -39,6 +39,24 @@ class Tourganizer.Util.MultiSelect
     else
       @include(el)
 
+  selectPrev: =>
+    if @cursor? == false or @cursor == 0
+      @reset(_.last @list)
+    else
+      @reset(@list[@cursor - 1])
+
+  selectNext: =>
+    if @cursor? == false or @cursor == @list.length - 1
+      @reset(@list[0])
+    else
+      @reset(@list[@cursor + 1])
+
+  moveToPrev: =>
+    @moveCursorTo(@cursor - 1)
+
+  moveToNext: =>
+    @moveCursorTo(@cursor + 1)
+
   _is_asc: (current_idx, prev_idx) ->
     current_idx - prev_idx == 1
 

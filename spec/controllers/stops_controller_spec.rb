@@ -42,7 +42,7 @@ describe StopsController do
     end
   end
 
-  describe 'GET schema' do
+  describe 'GET' do
     render_views
 
     before do
@@ -55,7 +55,8 @@ describe StopsController do
         "id"=>@stop.id,
         "date"=>"2013-06-20",
         "location"=>"Jackson, MI",
-        "venues"=>nil
+        "venues"=>nil,
+        "drives"=>[]
       }
     end
   end

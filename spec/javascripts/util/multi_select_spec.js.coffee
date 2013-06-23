@@ -3,8 +3,15 @@ describe 'MultiSelect', ->
   beforeEach ->
     @MultiSelect = Tourganizer.Util.MultiSelect
     @stoplist = Factory.build('stoplist')
+    @stops = @stoplist.stops
     @root = @stoplist.stops[2]
     @multi = new @MultiSelect(@stoplist.stops, @root)
+
+    @addMatchers
+      toSelect: (list, elements...) ->
+        expected = []
+        expected[idx] = list[idx] for idx in elements
+        _.isEqual @actual, expected
 
   describe 'constructor', ->
     it 'assigns root and list', ->
@@ -113,9 +120,9 @@ describe 'MultiSelect', ->
 
     it 'returns selected if asked to move cursor outside of list bounds', ->
       @multi.reset(@stoplist.stops[0])
-      expect(@multi.moveCursorTo(@multi.cursor - 1)).toEqual [@stoplist.stops[0]]
+      expect(@multi.moveCursorTo(@multi.cursor - 1)).toSelect @stops, 0
       @multi.reset(_.last @stoplist.stops)
-      expect(@multi.moveCursorTo(@stoplist.stops.length)).toEqual [undefined, undefined, undefined, undefined, undefined, undefined, @stoplist.stops[6]]
+      expect(@multi.moveCursorTo(@stoplist.stops.length)).toSelect @stops, 6
 
     it 'works desceding and then ascending', ->
       @multi.reset(@stoplist.stops[5])
@@ -124,6 +131,50 @@ describe 'MultiSelect', ->
       @multi.moveCursorTo(2)
       @multi.moveCursorTo(1)
       @multi.moveCursorTo(2)
-      @multi.moveCursorTo(3)
-      expect(@multi.selected).toEqual [undefined, undefined, undefined, @stoplist.stops[3], @stoplist.stops[4], @stoplist.stops[5]]
+      expect(@multi.moveCursorTo(3)).toSelect @stops, 3,4,5
+
+  describe 'selectPrev', ->
+    it 'selects the last element if no element is selected', ->
+      @multi = new @MultiSelect(@stoplist.stops)
+      expect(@multi.selectPrev()).toSelect @stops, 6
+
+    it 'selects the previous adjacent element', ->
+      @multi.selectPrev()
+      expect(@multi.selected).toEqual [undefined, @stoplist.stops[1]]
+
+    it 'selects the last element if the current element is the first', ->
+      @multi = new @MultiSelect(@stoplist.stops, @stoplist.stops[0])
+      expect(@multi.selectPrev()).toSelect @stops, 6
+
+  describe 'selectNext', ->
+    it 'selects the first element if no element is selected', ->
+      @multi = new @MultiSelect(@stoplist.stops)
+      expect(@multi.selectNext()).toSelect @stops, 0
+
+    it 'selects the next adjacent element', ->
+      expect(@multi.selectNext()).toSelect @stops, 3
+
+    it 'selects the first element if the current element is last', ->
+      @multi.reset _.last(@stoplist.stops)
+      expect(@multi.selectNext()).toSelect @stops, 0
+
+  describe 'moveToPrev', ->
+    it 'expands the selection to include the prev adjacent element', ->
+      expect(@multi.moveToPrev()).toSelect @stops, 1, 2
+
+    it 'does not wrap around to the top of the list', ->
+      @multi = new @MultiSelect(@stoplist.stops)
+      @multi.selectNext()
+      expect(@multi.moveToPrev()).toSelect @stops, 0
+
+  describe 'moveToNext', ->
+    it 'expands the selection to include the next adjacent element', ->
+      @multi.moveToNext()
+      expect(@multi.selected).toSelect @stops, 2, 3
+
+    it 'does not wrap around to the bottom of the list', ->
+      @multi.reset(_.last @stoplist.stops)
+      @multi.moveToNext()
+      expect(@multi.selected).toSelect @stops, 6
+
 

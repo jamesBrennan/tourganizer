@@ -1,14 +1,16 @@
 class Tourganizer.Stops.StopList
-  constructor: (@scope)->
+  constructor: (@scope, $injector)->
     @stops = @scope.stops
+    _.each @stops, (stop) -> $injector.invoke(Tourganizer.Stops.StopBehaviorMixin, @, stop: stop)
 
   editing: ->
     _.find @stops, (stop) ->
       stop.editing == true
 
-  remove: (stop) ->
-    idx = @stops.indexOf(stop)
-    @stops.splice(idx,1)
+  remove: (stops) ->
+    for stop in stops
+      idx = @stops.indexOf(stop)
+      @stops.splice(idx,1)
 
   find: (id) ->
     _.find @stops, (stop) -> stop.id == id
@@ -28,3 +30,5 @@ class Tourganizer.Stops.StopList
     idx = @stops.indexOf(stop)
     return null if idx == @stops.length - 1
     @stops[idx+1]
+
+Tourganizer.Stops.StopList.$inject = ["$injector"]

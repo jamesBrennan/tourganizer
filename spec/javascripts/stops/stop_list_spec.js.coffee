@@ -2,8 +2,8 @@ describe 'StopList', ->
   beforeEach module 'stops'
 
   describe 'editing', ->
-    beforeEach ->
-      @list = new Tourganizer.Stops.StopList({stops: [{editing: true} , {editing: false}] })
+    beforeEach inject ($injector) ->
+      @list = new Tourganizer.Stops.StopList({stops: [{editing: true} , {editing: false}] }, $injector)
 
     it 'returns the first element who\'s .editing property returns true', ->
       expect(@list.editing()).toEqual(@list.stops[0])

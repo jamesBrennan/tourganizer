@@ -1,6 +1,6 @@
 Tourganizer.ScheduleService = (DB_DATE_FORMAT) ->
-  nudgeDays: (stoplist, num_days) ->
-    _.map stoplist.stops, (stop) ->
+  nudgeDays: (stops, num_days) ->
+    _.map stops, (stop) ->
       stop.date = moment(stop.date, DB_DATE_FORMAT).add 'days', num_days
       stop.$update()
 

@@ -30,6 +30,10 @@ angular.module('tourganizer').factory('keypressHelper', ['$parse', '$q', functio
       return scope.keymap = keymap;
     };
 
+    scope.appendKeymap = function(keymap) {
+      return scope.keymap = $.extend(true, scope.keymap || {}, keymap)
+    };
+
     _.forEach(modeNames, function(name){ elm.unbind(name+".tourganizer") });
 
     _.forEach(modes, function(mode) {
