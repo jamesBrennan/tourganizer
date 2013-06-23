@@ -28,10 +28,11 @@ Tourganizer.Stops.IndexController = [
         watch_count++
 
     $scope.addStop = () ->
+      date = if $scope.stops.length > 0 then addDay(_.last($scope.stops).date) else Date.now()
       stop = new Stop(
         venues: {},
         editing: true
-        date: addDay(_.last($scope.stops).date)
+        date: date
       )
       $scope.stops.push stop
       _.last($scope.stops)

@@ -16,10 +16,9 @@ Tourganizer.Stops.MultiSelectHotkeysMixin = ($scope, @multiselect) ->
           $scope.shiftDates els
         '78': => #n
           @multiselect.reset $scope.addStop()
-
-  editing:
-      keyup: {}
-      keypress: {}
+    editing:
+        keyup: {}
+        keypress: {}
 
   enterEdit = ->
     $scope.setKeymap states.editing

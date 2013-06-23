@@ -19,7 +19,7 @@ class Tourganizer.Stops.StopList
   last: -> _.last(@stops)
 
   cleanup: ->
-    _.each @stops, (stop) => @remove(stop) unless stop.id
+    _.each @stops, (stop) => @remove([stop]) unless stop.id
 
   before: (stop) ->
     idx = @stops.indexOf(stop)

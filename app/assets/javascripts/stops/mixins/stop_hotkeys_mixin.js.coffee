@@ -24,7 +24,6 @@ Tourganizer.Stops.StopHotkeysMixin = ["$scope", ($scope) ->
       keyup:
         '69': enterEdit #e
         '79': open #o
-
     editing:
       keyup:
         'esc': cancelEdit
