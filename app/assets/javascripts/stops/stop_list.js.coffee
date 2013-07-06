@@ -31,4 +31,5 @@ class Tourganizer.Stops.StopList
     return null if idx == @stops.length - 1
     @stops[idx+1]
 
-Tourganizer.Stops.StopList.$inject = ["$injector"]
+Tourganizer.Stops.StopList.$inject = ["scope", "$injector"]
+angular.module('stops').factory 'StopList', Tourganizer.Stops.StopList
