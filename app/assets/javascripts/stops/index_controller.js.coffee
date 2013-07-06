@@ -6,7 +6,7 @@ Tourganizer.Stops.IndexController = [
       console.log 'stoplist being set on', $scope
       $scope.stoplist = $injector.instantiate(Tourganizer.Stops.StopList, scope: $scope, $injector: $injector)
       console.log 'stoplist set', $scope.stoplist
-      
+
     $scope.multi = new Tourganizer.Util.MultiSelect($scope.stops)
     $injector.invoke(Tourganizer.Stops.SaveMixin, @, $scope: $scope)
     $injector.invoke(Tourganizer.Stops.MultiSelectHotkeysMixin, @, $scope: $scope, multiselect: $scope.multi)

@@ -26,3 +26,6 @@ Tourganizer.Stops.StopBehaviorMixin = (stop) ->
 
   stop.toggleEdit = ->
     if @editing then @cancelEdit() else @edit()
+
+Tourganizer.Stops.StopBehaviorMixin.$inject = ['stop']
+angular.module('stops').factory 'StopBehaviorMixin', Tourganizer.Stops.StopBehaviorMixin
