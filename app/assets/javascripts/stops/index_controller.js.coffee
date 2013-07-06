@@ -3,7 +3,9 @@ Tourganizer.Stops.IndexController = [
   (Stop, $scope, $window, $injector, DB_DATE_FORMAT, DriveService, ScheduleService, $q) ->
 
     $scope.stops = Stop.query () ->
+      console.log 'setting stoplist'
       $scope.stoplist = new Tourganizer.Stops.StopList($scope, $injector)
+      console.log $scope.stoplist
 
     $scope.multi = new Tourganizer.Util.MultiSelect($scope.stops)
     $injector.invoke(Tourganizer.Stops.SaveMixin, @, $scope: $scope)
