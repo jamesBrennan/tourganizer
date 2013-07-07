@@ -11,16 +11,13 @@ Tourganizer.Drives.DriveService = (Drive, Stop, DistanceMatrixService, $q) ->
 
   create = (args) ->
     {from, to, deferred} = args
-    console.log 'creating', from, to, deferred
     DistanceMatrixService.getDistanceMatrix matrix_params(from.location, to.location),
       (response) ->
-        console.log 'got distance matrix', response
         new Drive(
           origin_id: from.id,
           destination_id: to.id,
           distance_matrix: response.rows[0].elements[0]
         ).$save (drive) ->
-          console.log 'resolving', [drive]
           deferred.resolve([drive])
 
   find_or_create: (args) ->
