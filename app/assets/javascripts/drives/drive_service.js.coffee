@@ -9,25 +9,37 @@ Tourganizer.Drives.DriveService = (Drive, Stop, DistanceMatrixService, $q) ->
     avoidTolls: false,
     unitSystem: google.maps.UnitSystem.IMPERIAL
 
+  create = (args) ->
+    {from, to, deferred} = args
+    console.log 'creating', from, to, deferred
+    DistanceMatrixService.getDistanceMatrix matrix_params(from.location, to.location),
+      (response) ->
+        console.log 'got distance matrix', response
+        new Drive(
+          origin_id: from.id,
+          destination_id: to.id,
+          distance_matrix: response.rows[0].elements[0]
+        ).$save (drive) ->
+          console.log 'resolving', [drive]
+          deferred.resolve([drive])
+
   find_or_create: (args) ->
     {from, to} = args
     deferred = $q.defer()
-    Drive.query {origin_id: from.id, destination_id: to.id}, (drives) ->
+    Drive.query { origin_id: from.id, destination_id: to.id }, (drives) ->
       if drives.length
         deferred.resolve(drives)
       else
-        DistanceMatrixService.getDistanceMatrix matrix_params(from.location, to.location),
-            (response) ->
-              new Drive(
-                origin_id: from.id,
-                destination_id: to.id,
-                distance_matrix: response.rows[0].elements[0]
-              ).
-              $save (drive) ->
-                deferred.resolve(drive)
-
+        create(from: from, to: to, deferred: deferred)
     deferred.promise
 
+  replace: (args) ->
+    {from, to} = args
+    deferred = $q.defer()
+    Drive.query { origin_id: from.id, destination_id: to.id }, (drives) ->
+      drive.$delete() for drive in drives
+    create(from: from, to: to, deferred: deferred)
+    deferred.promise
 
 Tourganizer.Drives.DriveService.$inject = ['Drive', 'Stop', 'DistanceMatrixService', '$q']
 angular.module('drives').service 'DriveService', Tourganizer.Drives.DriveService

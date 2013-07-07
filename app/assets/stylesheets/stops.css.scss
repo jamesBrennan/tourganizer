@@ -138,6 +138,20 @@ section.venues {
   }
 }
 
+.drive-time {
+  .icon-refresh {
+    visibility: hidden;
+    display: inline-block;
+    margin-left: 4px;
+  }
+  &:hover {
+    .icon-refresh {
+      visibility: visible;
+      cursor: pointer;
+    }
+  }
+}
+
 section footer {
   position: relative;
   width: 100%;

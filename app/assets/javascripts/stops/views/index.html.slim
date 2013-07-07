@@ -31,6 +31,9 @@ div
             button.btn.btn-small ng-click='listSave(stop)' save
           span.drive-distance ng-switch-default=''
             span ng-bind='drives[0].distance_matrix.distance.text'
-        td ng-switch='' on='stop.editing'
+        td.drive-time ng-switch='' on='stop.editing'
           span ng-switch-when='true' &nbsp;
-          span.drive-time ng-switch-default='' ng-bind='drives[0].distance_matrix.duration.text'
+          span ng-switch-default=''
+            span ng-bind='drives[0].distance_matrix.duration.text'
+            span.icon-refresh ng-show='drives' ng-click='recalculate()'
+
