@@ -54,6 +54,7 @@ Tourganizer::Application.routes.draw do
     collection do
       get 'schema'
     end
+    resources :bookings
   end
 
   resources :drives do

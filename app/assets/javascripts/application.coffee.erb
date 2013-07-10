@@ -7,13 +7,14 @@
 #= require stops/module
 #= require drives/module
 #= require maps/module
+#= require bookings/module
 
 window.Tourganizer =
   Stops: {}
   Drives: {}
   Util: {}
 
-application = angular.module('tourganizer', ['ngResource', 'stops', 'maps'])
+application = angular.module('tourganizer', ['ngResource', 'stops', 'maps', 'bookings'])
 
 application.controller 'appController', ['$scope', '$rootScope', '$q', ($scope, $rootScope, $q) ->
   $rootScope.$on '$routeChangeSuccess', (ev, current, last) ->
@@ -26,6 +27,7 @@ application.controller 'appController', ['$scope', '$rootScope', '$q', ($scope, 
 application.config ["$httpProvider", "$routeProvider", ($httpProvider, $routeProvider) ->
   $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content')
 ]
+
 application.value 'DB_DATE_FORMAT', 'YYYY-MM-DD'
 application.value 'DATE_FORMATS', {
   full: 'M.DD | ddd'

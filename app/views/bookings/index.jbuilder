@@ -1,0 +1,1 @@
+json.set! :bookings, @bookings
