@@ -30,6 +30,24 @@ describe StopsController do
         }
       }.to change(Stop, :count).from(0).to(1)
     end
+
+    it 'saves bookings' do
+      expect {
+        post :create, stop: {
+          date: '2013-06-20',
+          location: 'Arcata, CA',
+          venues: {
+            'Flop House'=> { owner: 'Jason' },
+            '1234 Main' => { capacity: 115 }
+          }},
+          bookings: [{
+            start_time: '20:00:00',
+            status: 'offered',
+            venue_name: 'The Castle',
+            venue_address: '123 fairyland lane'
+          }]
+      }.to change(Booking, :count).from(0).to(1)
+    end
   end
 
   describe 'GET new' do
@@ -56,7 +74,8 @@ describe StopsController do
         "date"=>"2013-06-20",
         "location"=>"Jackson, MI",
         "venues"=>nil,
-        "drives"=>[]
+        "drives"=>[],
+        "bookings"=>[]
       }
     end
   end

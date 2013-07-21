@@ -1,6 +1,6 @@
 Fabricator :booking do
   stop
-  time { DateTime.new(2013,12,1,20,0,0,'-8') }
+  start_time { Time.new(2013,12,1,20,0,0,'-08:00') }
   status { %w(offered confirmed).sample }
   details {
     {

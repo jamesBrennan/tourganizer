@@ -11,7 +11,7 @@ guard :livereload do
 end
 
 group :unit do
-  guard :rspec, spec_paths: %w{controllers mailers models policies services views decorators workers}.map {|dir| "spec/#{dir}"}  do
+  guard :rspec, spec_paths: %w{controllers models}.map {|dir| "spec/#{dir}"}  do
     watch(%r{^spec/.+_spec\.rb$})
     watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
     watch('spec/spec_helper.rb')  { "spec" }

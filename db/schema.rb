@@ -18,11 +18,14 @@ ActiveRecord::Schema.define(version: 20130709140919) do
 
   create_table "bookings", force: true do |t|
     t.integer  "stop_id"
-    t.datetime "time"
     t.string   "status"
+    t.string   "venue_name"
+    t.string   "venue_address"
     t.json     "details"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "start_time"
+    t.time     "end_time"
   end
 
   create_table "drives", force: true do |t|

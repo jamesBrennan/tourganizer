@@ -1,4 +1,7 @@
-Tourganizer.Stops.EditMixin = ['$scope', '$window', '$timeout', ($scope, $window, $timeout) ->
+Tourganizer.Stops.EditMixin = ['$scope', '$window', '$timeout', 'Booking', ($scope, $window, $timeout, Booking) ->
+  $scope.addBooking = () ->
+    $scope.stop.bookings.push new Booking(stop_id: $scope.stop.id, start_time: '20:00:00', status: 'offered')
+
   $scope.addVenue = () ->
     name = $window.prompt("Venue or Contact name")
     if name

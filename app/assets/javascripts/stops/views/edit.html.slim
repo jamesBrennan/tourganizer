@@ -7,6 +7,18 @@ div.stop
   section.venues
     .page-header
       h4
+        span Bookings
+        button.btn.btn-small ng-click='addBooking()' +
+        ul.bookings
+          li.booking ng-repeat='booking in stop.bookings'
+            form.form-inline
+              input.booking-venue-name ng-model='booking.venue_name' placeholder='Venue Name'
+              input.booking-venue-address  ng-model='booking.venue_address' placeholder='Venue Address'
+              select.booking-status  ng-model='booking.status' ng-options="v for v in ['offered', 'confirmed']"
+              button.btn.btn-small +
+              ul.booking-details
+
+      h4
         span Venues + Contacts
         button.btn.btn-small ng-click='addVenue()' +
       ul

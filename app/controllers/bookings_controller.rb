@@ -2,7 +2,7 @@ class BookingsController < ApplicationController
   respond_to :json
 
   def index
-    @bookings = Booking.all.order(:time)
+    @bookings = Booking.all.order(:start_time)
   end
 
   def create

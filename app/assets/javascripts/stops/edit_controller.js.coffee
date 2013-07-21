@@ -1,4 +1,4 @@
-Tourganizer.Stops.EditController = ['$scope', 'Stop', '$routeParams', '$injector', ($scope, Stop, $routeParams, $injector) ->
+Tourganizer.Stops.EditController = ['$scope', 'Stop', '$routeParams', '$injector', '$filter', ($scope, Stop, $routeParams, $injector, $filter) ->
   Stop.get(id: $routeParams.id, (stop) ->
     $injector.invoke(Tourganizer.Stops.EditMixin, @, $scope: $scope)
     $injector.invoke(Tourganizer.Stops.SaveMixin, @, $scope: $scope)
