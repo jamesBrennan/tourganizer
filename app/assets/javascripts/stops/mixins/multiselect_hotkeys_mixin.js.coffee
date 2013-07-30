@@ -15,7 +15,9 @@ Tourganizer.Stops.MultiSelectHotkeysMixin = ($scope, @multiselect) ->
           els = if selected.length > 0 then selected else @multiselect.list
           $scope.shiftDates els
         '78': => #n
-          @multiselect.reset $scope.addStop()
+          @multiselect.reset $scope.addStop(after_index: @multiselect.cursor)
+        'shift-78': =>
+          @multiselect.reset $scope.addStop(befor_index: @multiselect.cursor)
     editing:
         keyup: {}
         keypress: {}

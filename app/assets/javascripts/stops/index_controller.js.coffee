@@ -19,6 +19,15 @@ Tourganizer.Stops.IndexController = [
     addDay = (date_string, format = DB_DATE_FORMAT) ->
       moment(date_string, format).add('days', 1).format(format)
 
+    subtractDay = (date_string, format = DB_DATE_FORMAT) ->
+      moment(date_string, format).add('days', -1).format(format)
+
+    dayAfter = (stop_index) ->
+      addDay($scope.stops[stop_index].date)
+
+    dayBefore = (stop_index) ->
+      subtractDay($scope.stops[stop_index].date)
+
     $scope.focus = (stop) ->
       el = if stop.editing then 'input:first' else 'a:first'
       finder = [el, ".stop-#{stop.id || 'new'}"]
@@ -27,15 +36,36 @@ Tourganizer.Stops.IndexController = [
         cancel_watch() if watch_count > 8 || $(finder...).length && $(finder...).focus()
         watch_count++
 
-    $scope.addStop = () ->
-      date = if $scope.stops.length > 0 then addDay(_.last($scope.stops).date) else Date.now()
+    $scope.addStop = (opts) ->
+      { after_index, before_index } = opts
+
+      date = if $scope.stops.length > 0
+        if after_index
+          dayAfter(after_index)
+        else if before_index
+          dayBefore(before_index)
+        else
+          dayAfter($scope.stops.length - 1)
+      else
+        Date.now()
+
       stop = new Stop(
         venues: {},
         editing: true
         date: date
       )
-      $scope.stops.push stop
-      _.last($scope.stops)
+
+      splice_index = if after_index
+          after_index + 1
+        else if before_index
+          before_index - 1
+
+      if splice_index
+        $scope.stops.splice(splice_index, 0, stop)
+        $scope.stops[splice_index + 1]
+      else
+        $scope.stops.push stop
+        _.last($scope.stops)
 
     $scope.shiftDates = (stops) ->
       days = window.prompt('How many days?')
