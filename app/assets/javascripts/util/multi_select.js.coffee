@@ -51,6 +51,12 @@ class Tourganizer.Util.MultiSelect
     else
       @reset(@list[@cursor + 1])
 
+  selectLast: =>
+    @reset(_.last(@list))
+
+  selectFirst: =>
+    @reset(_.first(@list))
+
   moveToPrev: =>
     @moveCursorTo(@cursor - 1)
 
