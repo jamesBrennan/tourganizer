@@ -58,11 +58,11 @@ Tourganizer.Stops.IndexController = [
       splice_index = if after_index
           after_index + 1
         else if before_index
-          before_index - 1
+          before_index
 
       if splice_index
         $scope.stops.splice(splice_index, 0, stop)
-        $scope.stops[splice_index + 1]
+        $scope.stops[splice_index]
       else
         $scope.stops.push stop
         _.last($scope.stops)
@@ -91,7 +91,10 @@ Tourganizer.Stops.IndexController = [
 
     $scope.$watch 'stoplist.editing()', (editing) ->
       unless editing
-        $scope.stoplist.cleanup() if $scope.stoplist
+        if $scope.stoplist
+          $scope.stoplist.cleanup()
+          $scope.stops = $scope.stoplist.stops
+          $scope.multi = new Tourganizer.Util.MultiSelect($scope.stops)
 ]
 
 angular.module('stops').controller 'StopIndexController', Tourganizer.Stops.IndexController

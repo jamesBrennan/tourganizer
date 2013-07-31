@@ -8,6 +8,8 @@ Tourganizer.Stops.MultiSelectHotkeysMixin = ($scope, @multiselect) ->
         'down': @multiselect.selectNext
         'shift-up': @multiselect.moveToPrev
         'shift-down': @multiselect.moveToNext
+        'alt-down': @multiselect.selectLast
+        'alt-up': @multiselect.selectFirst
         '68': => #d
           $scope.destroy(_.compact @multiselect.selected)
         '83': => #s
@@ -17,7 +19,7 @@ Tourganizer.Stops.MultiSelectHotkeysMixin = ($scope, @multiselect) ->
         '78': => #n
           @multiselect.reset $scope.addStop(after_index: @multiselect.cursor)
         'shift-78': =>
-          @multiselect.reset $scope.addStop(befor_index: @multiselect.cursor)
+          @multiselect.reset $scope.addStop(before_index: @multiselect.cursor)
     editing:
         keyup: {}
         keypress: {}
